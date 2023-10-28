@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import VideoPlayer from '@/components/VideoPlayer.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <VideoPlayer videoUrl="Video/1.mp4"></VideoPlayer>
   </main>
 </template>
