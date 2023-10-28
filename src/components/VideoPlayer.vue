@@ -21,6 +21,22 @@
       </div>
     </div>
   </div>
+  <div class="progress">
+
+  </div>
+  <div class="video-controls">
+    <div>播放</div>
+    <div>
+      开始时间
+      /
+      结束时间
+    </div>
+    <div>倍速</div>
+    <div>音量</div>
+  </div>
+  <el-progress :percentage="50">
+    <el-button text>Content</el-button>
+  </el-progress>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +56,7 @@ const state = reactive({
 const videoRef = ref<HTMLVideoElement | null>(null);
 
 const togglePlay = () => {
-  if(!videoRef.value) return
+  if (!videoRef.value) return
   state.isPlaying = !state.isPlaying;
   if (state.isPlaying) {
     videoRef.value.play();
@@ -54,7 +70,7 @@ const toggleVolume = () => {
 };
 
 const updateProgress = () => {
-  if(!videoRef.value) return
+  if (!videoRef.value) return
   const video = videoRef.value;
   const progress = (video.currentTime / video.duration) * 100;
   state.progress = Math.floor(progress);
