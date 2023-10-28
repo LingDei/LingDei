@@ -34,9 +34,6 @@
     <div>倍速</div>
     <div>音量</div>
   </div>
-  <el-progress :percentage="50">
-    <el-button text>Content</el-button>
-  </el-progress>
 </template>
 
 <script setup lang="ts">
@@ -80,8 +77,8 @@ const updateProgress = () => {
 <style scoped>
 .video-player {
   position: relative;
-  width: 800px;
-  height: 450px;
+  width: 100%;
+  height: 100%;
 }
 
 .video-player-video {
