@@ -1,18 +1,11 @@
+import type { Video } from '@/model/video'
 import { Get } from '@/utils/request/request'
 
-export interface VideoList {
-  id: string
-  name: string
-  category_uuid: string
-  url: string
-  thumbnail_url: string
-  views: number
-  author_id: string
-}
+
 
 export interface videoListResponse {
   code: number
-  video_list: VideoList[]
+  video_list: Video[]
 }
 
 export type ApiResponse = Promise<[any, videoListResponse | undefined]>
