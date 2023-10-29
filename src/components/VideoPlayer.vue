@@ -37,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import type { VideoList } from "@/apis/video.ts";
+import type { Video } from "@/model/video";
 import {  reactive, ref } from "vue";
 const props = defineProps<{
-  video: VideoList
+  video: Video
   index: number
   indexInfo: {
     index: number
