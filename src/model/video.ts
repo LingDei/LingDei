@@ -1,11 +1,12 @@
 interface Video {
-    id: string;
-    cover: string;
-    title: string;
-    description: string;
-    views: string;
-    date: string;
-}
+    uuid: string
+    name: string
+    category_uuid: string
+    url: string
+    thumbnail_url: string
+    views: number
+    author_id: string
+  }
 
 export type {
     Video
