@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RecommendView from '../views/recommendView.vue'
+import RecommendView from '../views/RecommendView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
