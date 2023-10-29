@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import VideoCard from '@/components/VideoCard.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Video } from '@/model/video';
+import { apis } from '@/apis'
+
+onMounted(async () => {
+  const data = await apis.getVideoList()
+  console.log(data);
+  
+})
 
 const videos = ref<Video[]>([
   {

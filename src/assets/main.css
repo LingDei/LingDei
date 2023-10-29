@@ -37,3 +37,6 @@ a,
     padding: 0 2rem;
   }
 } */
+#app {
+  font-weight: normal;
+}
