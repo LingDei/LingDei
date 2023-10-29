@@ -96,9 +96,6 @@ const videos = ref<Video[]>([
           :key="video.id"
           :video="video"
         />
-        
-
-
       
       </div>
     </div>
