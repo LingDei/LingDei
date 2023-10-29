@@ -1,7 +1,7 @@
 <template>
-  <div class="video-player">
+  <div class="video-player" v-if="index in indexInfo.indexs" v-show="index === indexInfo.index">
     <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress">
-      <source :src="videoUrl" type="video/mp4" />
+      <source :src="props.video?.url" type="video/mp4" />
     </video>
 
     <div class="video-player-controls">
@@ -20,27 +20,34 @@
         <input type="range" v-if="state.isVolumeVisible" v-model="state.volume" min="0" max="1" step="0.1" />
       </div>
     </div>
-  </div>
-  <div class="progress">
+    <div class="progress">
 
-  </div>
-  <div class="video-controls">
-    <div>播放</div>
-    <div>
-      开始时间
-      /
-      结束时间
     </div>
-    <div>倍速</div>
-    <div>音量</div>
+    <div class="video-controls">
+      <div>播放</div>
+      <div>
+        开始时间
+        /
+        结束时间
+      </div>
+      <div>倍速</div>
+      <div>音量</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-defineProps<{
-  videoUrl: string,
+import type { VideoList } from "@/apis/video.ts";
+import {  reactive, ref } from "vue";
+const props = defineProps<{
+  video: VideoList
+  index: number
+  indexInfo: {
+    index: number
+    indexs: number[]
+  }
 }>()
+
 
 
 const state = reactive({

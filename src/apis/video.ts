@@ -1,6 +1,4 @@
-import { Get, type FcResponse } from '@/utils/request/request'
-
-export type ApiResponse<T> = Promise<[any, FcResponse<T> | undefined]>
+import { Get } from '@/utils/request/request'
 
 export interface VideoList {
   id: string
@@ -12,7 +10,14 @@ export interface VideoList {
   author_id: string
 }
 
-function getVideoList(): ApiResponse<VideoList> {
+export interface videoListResponse {
+  code: number
+  video_list: VideoList[]
+}
+
+export type ApiResponse = Promise<[any, videoListResponse | undefined]>
+
+function getVideoList(): ApiResponse {
   return Get('/video/list')
 }
 
