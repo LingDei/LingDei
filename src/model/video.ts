@@ -6,6 +6,7 @@ interface Video {
     thumbnail_url: string
     views: number
     author_id: string
+    publish_date: string
   }
 
 export type {
