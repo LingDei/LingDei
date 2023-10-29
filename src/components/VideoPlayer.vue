@@ -48,8 +48,6 @@ const props = defineProps<{
   }
 }>()
 
-
-
 const state = reactive({
   isPlaying: false,
   progress: 0,
