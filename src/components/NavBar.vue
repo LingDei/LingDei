@@ -26,14 +26,8 @@ import { RouterLink } from 'vue-router'
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
                 <RouterLink to="/" class="text-gray-300 hover:text-white">首页</RouterLink>
-
                 <RouterLink to="/recommend" class="text-gray-300 hover:text-white">推荐</RouterLink>
-
                 <RouterLink to="/hot" class="text-gray-300 hover:text-white">热门</RouterLink>
-
-                <a href="#" class="text-gray-300 hover:text-white">热门视频</a>
-
-
             </div>
         </div>
     </nav>

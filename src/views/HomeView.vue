@@ -7,7 +7,7 @@ const videos = ref<Video[]>([
   {
     id: '1',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -15,7 +15,7 @@ const videos = ref<Video[]>([
   {
     id: '2',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -23,7 +23,7 @@ const videos = ref<Video[]>([
   {
     id: '3',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -31,7 +31,7 @@ const videos = ref<Video[]>([
   {
     id: '4',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -39,7 +39,7 @@ const videos = ref<Video[]>([
   {
     id: '5',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -47,7 +47,7 @@ const videos = ref<Video[]>([
   {
     id: '6',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -55,7 +55,7 @@ const videos = ref<Video[]>([
   {
     id: '7',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -63,7 +63,7 @@ const videos = ref<Video[]>([
   {
     id: '8',
     title: 'Vue 3 Composition API',
-    cover: 'https://img.youtube.com/vi/6x3oXRGZbCE/maxresdefault.jpg',
+    cover: 'https://via.placeholder.com/400x300',
     description: 'Vue 3 Composition API',
     views: "100",
     date: '2023-10-27',
@@ -80,10 +80,6 @@ const videos = ref<Video[]>([
 </script>
 
 <template>
-    <h1 class="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-
     <div class="container mx-auto mt-8">
       <h1 class="mb-4 text-3xl font-semibold">热门视频</h1>
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
