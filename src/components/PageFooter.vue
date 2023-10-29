@@ -3,8 +3,9 @@
 </script>
 
 <template>
-    <div class="bg-gray-800 text-white p-4 mt-8">
-        <div class="container mx-auto text-center">&copy; 2023 视频网站</div>
+    <div class="p-4 mt-8 text-white bg-gray-800">
+        <div class="container mx-auto text-center">Copyright &copy; 2023 灵嘚（LingDei）咚易科技 | 沪ICP备14039016号-17
+ </div>
     </div>
 </template>
 
