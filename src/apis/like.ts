@@ -1,4 +1,4 @@
-import type { LikeResponse, LikeListResponse, LikeCountResponse } from "@/model/like";
+import type { LikeListResponse, LikeCountResponse, LikeStatusResponse } from "@/model/like";
 import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
 
@@ -12,9 +12,9 @@ function getLikeCount(video_uuid: string): Promise<[any, LikeCountResponse | und
     return Get("/like/count", { video_uuid });
 }
 
-// 获取点赞
-function getLike(uuid: string): Promise<[any, LikeResponse | undefined]> {
-    return Get("/like/get", { uuid });
+// 检查是否点赞
+function checkLike(video_uuid: string): Promise<[any, LikeStatusResponse | undefined]> {
+    return Get("/like/check", { video_uuid });
 }
 
 // 添加点赞
@@ -32,7 +32,7 @@ function deleteLike(uuid: string): Promise<[any, OperationResponse | undefined]>
 export const likeApis = {
     getLikeList,
     getLikeCount,
-    getLike,
+    checkLike,
     addLike,
     deleteLike
 };

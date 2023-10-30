@@ -9,6 +9,11 @@ interface CollectResponse {
     collect: Collect
 }
 
+interface CollectStatusResponse {
+    code: number
+    status: boolean
+}
+
 interface CollectListResponse {
     code: number
     collect_list: Collect[]
@@ -17,5 +22,6 @@ interface CollectListResponse {
 export type {
     Collect,
     CollectResponse,
+    CollectStatusResponse,
     CollectListResponse
 }
