@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import { handleNetworkError } from './RequestTools'
 import { authURL } from '@/constants/server'
 import type { IAnyObj } from '@/model/type'
