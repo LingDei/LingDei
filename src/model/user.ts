@@ -4,6 +4,13 @@ interface User {
     role: string
 }
 
+interface TokenResponse {
+    code: number
+    token: string
+    role: number
+}
+
 export type {
-    User
+    User,
+    TokenResponse
 }

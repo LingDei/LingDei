@@ -4,6 +4,18 @@ interface Like {
     video_uuid: string
 }
 
+interface LikeResponse {
+    code: number
+    like: Like
+}
+
+interface LikeListResponse {
+    code: number
+    likes: Like[]
+}
+
 export type {
-    Like
+    Like,
+    LikeResponse,
+    LikeListResponse
 }

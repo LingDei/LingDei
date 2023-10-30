@@ -5,6 +5,12 @@ interface Profile {
     avatar_url: string
 }
 
+interface ProfileResponse {
+    code: number
+    profile: Profile
+}
+
 export type {
-    Profile
+    Profile,
+    ProfileResponse
 }

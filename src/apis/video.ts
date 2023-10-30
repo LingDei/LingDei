@@ -14,6 +14,8 @@ function getVideoList(): ApiResponse {
   return Get('/video/list')
 }
 
+
+
 export const videoApis = {
   getVideoList
 }

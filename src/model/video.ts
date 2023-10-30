@@ -9,6 +9,18 @@ interface Video {
     publish_date: string
   }
 
+interface VideoResponse {
+    code: number
+    video: Video
+}
+
+interface VideoListResponse {
+    code: number
+    videos: Video[]
+}
+
 export type {
-    Video
+    Video,
+    VideoResponse,
+    VideoListResponse
 }
