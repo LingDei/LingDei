@@ -21,14 +21,21 @@
       </div>
     </div>
     <div class="progress">
-
+      <el-progress></el-progress>
     </div>
     <div class="video-controls">
-      <div>播放</div>
+      <div @click="togglePlay" class="video-player-control">
+        <el-icon v-if="state.isPlaying" size="40">
+          <VideoPause />
+        </el-icon>
+        <el-icon v-else size="40">
+          <VideoPlay />
+        </el-icon>
+      </div>
       <div>
-        开始时间
+        {{ floor(videoRef?.currentTime) }}
         /
-        结束时间
+        {{ floor(videoRef?.duration) }}
       </div>
       <div>倍速</div>
       <div>音量</div>
@@ -38,7 +45,9 @@
 
 <script setup lang="ts">
 import type { VideoList } from "@/apis/video.ts";
-import {  reactive, ref } from "vue";
+import { reactive, ref } from "vue";
+import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
+import { floor } from '@/utils/format'
 const props = defineProps<{
   video: VideoList
   index: number
@@ -102,8 +111,8 @@ const updateProgress = () => {
   justify-content: center;
 }
 
-.video-player-control-btn {
-  margin: 0 10px;
+.video-player-control {
+  cursor: pointer;
 }
 
 .video-player-progress-bar {
