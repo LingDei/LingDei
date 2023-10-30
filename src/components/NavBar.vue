@@ -17,8 +17,8 @@ import { RouterLink } from 'vue-router'
                 </div>
                 <!-- 用户名和登录/注销按钮 -->
                 <div>
-                    <span class="mr-4">欢迎，用户123</span>
-                    <a href="#" class="text-gray-300 hover:text-white">注销</a>
+                    <RouterLink to="/user/login" class="mr-2 text-gray-300 hover:text-white">登录</RouterLink>
+                    <RouterLink to="/user/register" class="text-gray-300 hover:text-white">注册</RouterLink>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@ import { RouterLink } from 'vue-router'
             <div class="flex space-x-4">
                 <RouterLink to="/" class="text-gray-300 hover:text-white">首页</RouterLink>
                 <RouterLink to="/recommend" class="text-gray-300 hover:text-white">推荐</RouterLink>
-                <RouterLink to="/hot" class="text-gray-300 hover:text-white">热门</RouterLink>
+                <RouterLink to="/follow" class="text-gray-300 hover:text-white">关注</RouterLink>
             </div>
         </div>
     </nav>
