@@ -4,6 +4,24 @@ interface Collect {
     video_uuid: string
 }
 
+interface CollectResponse {
+    code: number
+    collect: Collect
+}
+
+interface CollectStatusResponse {
+    code: number
+    status: boolean
+}
+
+interface CollectListResponse {
+    code: number
+    collect_list: Collect[]
+}
+
 export type {
-    Collect
+    Collect,
+    CollectResponse,
+    CollectStatusResponse,
+    CollectListResponse
 }
