@@ -44,12 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import type { VideoList } from "@/apis/video.ts";
+import type { Video } from "@/model/video";
 import { reactive, ref } from "vue";
 import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
 import { floor } from '@/utils/format'
 const props = defineProps<{
-  video: VideoList
+  video: Video
   index: number
   indexInfo: {
     index: number

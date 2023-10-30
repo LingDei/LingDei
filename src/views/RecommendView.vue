@@ -3,10 +3,10 @@ import VideoPlayer from '@/components/VideoPlayer.vue'
 import { onMounted, ref, computed } from 'vue'
 // @ts-ignore TODO: 配置了include还是无法解析
 import { apis } from '@/apis'
-import type { VideoList } from '@/apis/video';
 import { handleNetworkError } from '@/utils/request/RequestTools'
+import type { Video } from '@/model/video';
 
-const videoList = ref<VideoList[]>([])
+const videoList = ref<Video[]>([])
 const index = ref(0)
 
 onMounted(async () => {
