@@ -1,4 +1,4 @@
-import type { CollectResponse, CollectListResponse } from "@/model/collect";
+import type { CollectListResponse, CollectStatusResponse } from "@/model/collect";
 import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
 
@@ -7,9 +7,9 @@ function getCollectList(): Promise<[any, CollectListResponse | undefined]> {
     return Get("/collect/list");
 }
 
-// 获取收藏
-function getCollect(uuid: string): Promise<[any, CollectResponse | undefined]> {
-    return Get("/collect/get", { uuid });
+// 检查是否收藏
+function checkCollect(video_uuid: string): Promise<[any, CollectStatusResponse | undefined]> {
+    return Get("/collect/check", { video_uuid });
 }
 
 // 添加收藏
@@ -26,7 +26,7 @@ function deleteCollect(uuid: string): Promise<[any, OperationResponse | undefine
 
 export const collectApis = {
     getCollectList,
-    getCollect,
+    checkCollect,
     addCollect,
     deleteCollect
 };
