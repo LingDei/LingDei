@@ -18,6 +18,7 @@ declare module 'vue' {
     PageFooter: typeof import('./components/PageFooter.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserAvatar: typeof import('./components/UserAvatar.vue')['default']
     VideoCard: typeof import('./components/VideoCard.vue')['default']
     VideoPlayer: typeof import('./components/VideoPlayer.vue')['default']
   }
