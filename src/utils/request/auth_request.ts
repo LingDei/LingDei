@@ -3,6 +3,9 @@ import axios from 'axios'
 import { handleNetworkError } from './RequestTools'
 import { authURL } from '@/constants/server'
 import type { IAnyObj } from '@/model/type'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 const request = axios.create({
   baseURL: authURL,
@@ -10,8 +13,13 @@ const request = axios.create({
   responseType: 'json'
 })
 
+// 配置请求头
 request.interceptors.request.use((config) => {
-  // 此处可以添加请求头相关信息
+  // 添加token
+  if (userStore.token) {
+    config.headers.Authorization = `Bearer ${userStore.token}`
+  }
+
   return config
 })
 
