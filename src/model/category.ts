@@ -10,7 +10,7 @@ interface CategoryResponse {
 
 interface CategoryListResponse {
     code: number
-    categories: Category[]
+    category_list: Category[]
 }
 
 export type {

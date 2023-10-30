@@ -11,7 +11,7 @@ interface LikeResponse {
 
 interface LikeListResponse {
     code: number
-    likes: Like[]
+    like_list: Like[]
 }
 
 export type {

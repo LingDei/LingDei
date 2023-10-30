@@ -11,7 +11,7 @@ interface CollectResponse {
 
 interface CollectListResponse {
     code: number
-    collects: Collect[]
+    collect_list: Collect[]
 }
 
 export type {

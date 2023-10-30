@@ -16,7 +16,7 @@ interface VideoResponse {
 
 interface VideoListResponse {
     code: number
-    videos: Video[]
+    video_list: Video[]
 }
 
 export type {
