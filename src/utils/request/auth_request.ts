@@ -2,10 +2,7 @@ import axios from 'axios'
 
 import { handleNetworkError } from './RequestTools'
 import { authURL } from '@/constants/server'
-
-interface IAnyObj {
-  [index: string]: unknown
-}
+import type { IAnyObj } from '@/model/type'
 
 const request = axios.create({
   baseURL: authURL,

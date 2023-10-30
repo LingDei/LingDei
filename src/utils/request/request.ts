@@ -2,10 +2,7 @@ import axios from 'axios'
 
 import { handleNetworkError } from './RequestTools'
 import { baseURL } from '@/constants/server'
-
-interface IAnyObj {
-  [index: string]: unknown
-}
+import type { IAnyObj } from '@/model/type'
 
 const request = axios.create({
   baseURL: baseURL,
@@ -50,6 +47,20 @@ export const Post = <T>(
   return new Promise((resolve) => {
     request
       .post(url, data, { params })
+      .then((result) => {
+        resolve([null, result.data])
+      })
+      .catch((err) => {
+        resolve([err, undefined])
+      })
+  })
+}
+
+
+export const Delete = <T>(url: string, params: IAnyObj = {}): Promise<[any, T | undefined]> => {
+  return new Promise((resolve) => {
+    request
+      .delete(url, { params })
       .then((result) => {
         resolve([null, result.data])
       })
