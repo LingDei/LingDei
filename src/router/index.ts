@@ -25,6 +25,11 @@ const router = createRouter({
           path: '/follow',
           name: 'follow',
           component: () => import('../views/FollowView.vue')
+        },
+        {
+          path: '/category',
+          name: 'category',
+          component: () => import('../views/CategoryView.vue')
         }
       ]
     },
