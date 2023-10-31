@@ -7,10 +7,21 @@ import router from '@/router';
 
 const form = ref({
     username: '',
-    password: ''
+    password: '',
+    confirm_password: ''
 })
 
 async function submit() {
+    //  参数检查
+    if (form.value.password != form.value.confirm_password) {
+        message({
+            showClose: true,
+            message: "两次密码不一致",
+            type: 'error'
+        })
+        return
+    }
+
     const [err, data] = await apis.register(form.value.username, form.value.password);
     if (err) handleNetworkError(err)
     if (data?.code !== 200) {
@@ -43,11 +54,16 @@ async function submit() {
                     <input type="password" v-model="form.password" id="password" name="password"
                         class="w-full p-3 border rounded">
                 </div>
+                <div class="mb-6">
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-600">确认密码</label>
+                    <input type="password" v-model="form.confirm_password" id="password" name="password"
+                        class="w-full p-3 border rounded">
+                </div>
                 <button type="submit" @click="submit"
-                    class="w-full p-3 text-white bg-blue-500 rounded hover:bg-blue-600">注册</button>
+                    class="w-full p-3 text-white bg-green-500 rounded hover:bg-green-600">注册</button>
             </div>
             <div class="mt-4">
-                <button @click="router.push({name: 'login'})" class="w-full p-3 text-white bg-green-500 rounded hover:bg-green-600">登录</button>
+                <button @click="router.push({name: 'login'})" class="w-full p-3 text-black rounded bg-slate-100 hover:bg-slate-200">登录</button>
             </div>
         </div>
     </div>

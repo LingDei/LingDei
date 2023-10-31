@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: '/follow',
       name: 'follow',
-      component: () => import('../views/user/FollowView.vue')
+      component: () => import('../views/FollowView.vue')
     }
   ]
 })
@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
   if(whiteList.includes(String(to.name))){
     next();
   }else{    
-    if(!userStore.token || to.name !== 'login') {
+    if(!userStore.isLogin && to.name !== 'login') {
       next({name: 'login'})
     }
     next()
