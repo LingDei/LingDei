@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
 import { apis } from '@/apis'
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch } from "vue"
 import type { Category } from '@/model/category';
 import { handleNetworkError } from '@/utils/request/RequestTools';
+import { Watch } from '@element-plus/icons-vue';
 
 interface Tab {
     type: string // default or category
@@ -20,14 +21,13 @@ const tabs = ref<Tab[]>([
 
 const category_tabs = ref<Tab[]>([])
 
-
 onMounted(async () => {
     const [err, data] = await apis.getCategoryList()
     if (err) handleNetworkError(err)
     if (!data || data?.category_list.length === 0) return
     // 将分类加入category_tabs
     data.category_list.forEach((category: Category) => {
-        category_tabs.value.push({
+        tabs.value.push({
             type: 'category',
             name: category.name,
             path: `/category`,
@@ -76,12 +76,12 @@ onMounted(async () => {
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
                 <RouterLink v-for="(tab, index) in tabs" :key="index"
-                    :to="tab.path"
+                    :to="{ path: tab.path, query: tab.category ? { 'uuid': tab.category?.uuid } : {} }"
                     class="text-gray-300 hover:text-white">{{ tab.name }}</RouterLink>
 
-                <a v-for="(tab, index) in category_tabs" :key="index+tabs.length"
-                    :href="tab.path + (tab.category ? '?uuid=' + tab.category?.uuid : '')"
-                    class="text-gray-300 hover:text-white">{{ tab.name }}</a>
+                <!-- <a v-for="(tab, index) in category_tabs" :key="index+tabs.length"
+                        :href="tab.path + (tab.category ? '?uuid=' + tab.category?.uuid : '')"
+                        class="text-gray-300 hover:text-white">{{ tab.name }}</a> -->
             </div>
         </div>
     </nav>
