@@ -48,6 +48,11 @@ const router = createRouter({
           component: CategoryView
         },
         {
+          path: '/video/:id',
+          name: 'video',
+          component: () => import('../views/VideoView.vue')
+        },
+        {
           path: "/:pathMatch(.*)",
           name: "NotFound",
           component: NotFoundView
