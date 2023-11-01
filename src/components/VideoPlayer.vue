@@ -33,9 +33,9 @@
         </el-icon>
       </div>
       <div>
-        {{ floor(videoRef?.currentTime) }}
+        {{ floor(videoRef?.currentTime as number) }}
         /
-        {{ floor(videoRef?.duration) }}
+        {{ floor(videoRef?.duration as number) }}
       </div>
       <div>倍速</div>
       <div>音量</div>

@@ -17,13 +17,16 @@ const tabs = ref<Tab[]>([
     { type: 'default', name: '关注', path: '/follow' },
 ])
 
+const category_tabs = ref<Tab[]>([])
+
+
 onMounted(async () => {
     const [err, data] = await apis.getCategoryList()
     if (err) handleNetworkError(err)
     if (!data || data?.category_list.length === 0) return
-    // 将分类加入tabs
+    // 将分类加入category_tabs
     data.category_list.forEach((category: Category) => {
-        tabs.value.push({
+        category_tabs.value.push({
             type: 'category',
             name: category.name,
             path: `/category`,
@@ -71,10 +74,13 @@ onMounted(async () => {
 
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
-                <!-- 强制页面刷新 -->
                 <RouterLink v-for="(tab, index) in tabs" :key="index"
-                    :to="{ path: tab.path, query: tab.category ? { 'uuid': tab.category?.uuid } : {} }"
-                    class="text-gray-300 hover:text-white" exact>{{ tab.name }}</RouterLink>
+                    :to="tab.path"
+                    class="text-gray-300 hover:text-white">{{ tab.name }}</RouterLink>
+
+                <a v-for="(tab, index) in category_tabs" :key="index+tabs.length"
+                    :href="tab.path + (tab.category ? '?uuid=' + tab.category?.uuid : '')"
+                    class="text-gray-300 hover:text-white">{{ tab.name }}</a>
             </div>
         </div>
     </nav>
