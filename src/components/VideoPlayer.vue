@@ -1,5 +1,5 @@
 <template>
-  <div class="video-player" v-if="index in indexInfo.indexs" v-show="index === indexInfo.index">
+  <div class="video-player" v-if="indexInfo.indexs.includes(index)" v-show="index === indexInfo.index">
     <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress">
       <source :src="props.video?.url" type="video/mp4" />
     </video>

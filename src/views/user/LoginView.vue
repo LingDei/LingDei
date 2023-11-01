@@ -51,7 +51,7 @@ async function submit() {
                     class="w-full p-3 text-white bg-blue-500 rounded hover:bg-blue-600">登录</button>
             </div>
             <div class="mt-4">
-                <button @click="router.push({name: 'register'})" class="w-full p-3 text-white bg-green-500 rounded hover:bg-green-600">注册</button>
+                <button @click="router.push({name: 'register'})" class="w-full p-3 text-black rounded bg-slate-100 hover:bg-slate-200">注册</button>
             </div>
         </div>
     </div>

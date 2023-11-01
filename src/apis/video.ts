@@ -3,8 +3,8 @@ import type { VideoListResponse, VideoResponse } from '@/model/video'
 import { Delete, Get, Post } from '@/utils/request/request'
 
 // 获取视频列表
-function getVideoList(): Promise<[any, VideoListResponse | undefined]> {
-  return Get('/video/list')
+function getVideoList(category_uuid?: string): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/list', { category_uuid })
 }
 
 // 获取视频
@@ -14,7 +14,7 @@ function getVideo(uuid: string): Promise<[any, VideoResponse | undefined]> {
 
 // 添加视频
 function addVideo(uuid: string, name: string, category_uuid: string): Promise<[any, OperationResponse | undefined]> {
-  const form = new FormData() 
+  const form = new FormData()
   form.append("uuid", uuid)
   form.append("name", name)
   form.append("category_uuid", category_uuid)
@@ -23,7 +23,7 @@ function addVideo(uuid: string, name: string, category_uuid: string): Promise<[a
 
 // 修改视频
 function updateVideo(uuid: string, name: string, category_uuid: string): Promise<[any, OperationResponse | undefined]> {
-  const form = new FormData() 
+  const form = new FormData()
   form.append("uuid", uuid)
   form.append("name", name)
   form.append("category_uuid", category_uuid)

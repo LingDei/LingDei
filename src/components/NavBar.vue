@@ -1,37 +1,63 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
+import { apis } from '@/apis'
+import type { Category } from '@/model/category';
+import { handleNetworkError } from '@/utils/request/RequestTools';
 
+interface Tab {
+    type: string // default or category
+    name: string
+    path: string
+    category?: Category
+}
+
+const tabs = ref<Tab[]>([
+    { type: 'default', name: '首页', path: '/' },
+    { type: 'default', name: '推荐', path: '/recommend' },
+    { type: 'default', name: '关注', path: '/follow' },
+])
+
+onMounted(async () => {
+    const [err, data] = await apis.getCategoryList()
+    if (err) handleNetworkError(err)
+    if (!data || data?.category_list.length === 0) return
+    // 将分类加入tabs
+    data.category_list.forEach((category: Category) => {
+        tabs.value.push({
+            type: 'category',
+            name: category.name,
+            path: `/category`,
+            category: category
+        })
+    })
+})
 
 </script>
 
 <template>
     <!-- 导航栏 -->
-    <nav class="p-4 text-white bg-gradient-to-r from-blue-900 to-purple-900">
+    <nav class="p-4 text-white bg-gradient-to-r from-blue-900 to-blue-800">
         <div class="container flex items-center justify-between mx-auto">
-            <a href="#" class="text-3xl font-bold">灵嘚</a>
+            <!-- Logo -->
+            <img src="../assets/logo-white.svg" alt="logo" class="w-24 h-15" />
 
             <div class="flex items-center">
                 <!-- 用户头像 -->
-                <div class="mr-4">
-                    <img src="https://via.placeholder.com/40" alt="用户头像" class="w-10 h-10 rounded-full" />
-                </div>
-                <!-- 用户名和登录/注销按钮 -->
-                <div>
-                    <RouterLink to="/user/login" class="mr-2 text-gray-300 hover:text-white">登录</RouterLink>
-                    <RouterLink to="/user/register" class="text-gray-300 hover:text-white">注册</RouterLink>
-                </div>
+                <UserAvatar />
             </div>
         </div>
 
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
-                <RouterLink to="/" class="text-gray-300 hover:text-white">首页</RouterLink>
-                <RouterLink to="/recommend" class="text-gray-300 hover:text-white">推荐</RouterLink>
-                <RouterLink to="/follow" class="text-gray-300 hover:text-white">关注</RouterLink>
+                <!-- 强制页面刷新 -->
+                <RouterLink v-for="(tab, index) in tabs" :key="index"
+                    :to="{ path: tab.path, query: tab.category ? { 'uuid': tab.category?.uuid } : {} }" class="text-gray-300 hover:text-white"
+                    exact>{{ tab.name }}</RouterLink>
             </div>
         </div>
     </nav>
 </template>
-  
+
+<style></style>
 
   
