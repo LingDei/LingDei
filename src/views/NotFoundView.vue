@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 // 3秒后跳转到首页
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const count = ref(3)

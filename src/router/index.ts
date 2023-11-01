@@ -3,37 +3,15 @@ import { useUserStore } from '@/stores/user';
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RecommandLayoutVue from '@/layout/RecommandLayout.vue';
-
+import HomeView from '@/views/HomeView.vue'
+import RecommendView from '@/views/RecommendView.vue'
+import FollowView from '@/views/FollowView.vue'
+import CategoryView from '@/views/CategoryView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      component: AppLayout,
-      children: [
-        {
-          path: '/',
-          name: 'home',
-          component: () => import('../views/HomeView.vue')
-        },
-        {
-          path: '/follow',
-          name: 'follow',
-          component: () => import('../views/FollowView.vue')
-        },
-        {
-          path: '/category',
-          name: 'category',
-          component: () => import('../views/CategoryView.vue')
-        },
-        {
-          path: "/:pathMatch(.*)",
-          name: "NotFound",
-          component: () => import("@/views/NotFoundView.vue"),
-        }
-      ]
-    },
     {
       path: '/recommend',
       component: RecommandLayoutVue,
@@ -41,8 +19,39 @@ const router = createRouter({
         {
           path: '/recommend',
           name: 'recommend',
-          component: () => import('../views/RecommendView.vue')
+          component: RecommendView
         },
+      ]
+    },
+    {
+      path: '/',
+      component: AppLayout,
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: HomeView
+        },
+        // {
+        //   path: '/recommend',
+        //   name: 'recommend',
+        //   component: RecommendView
+        // },
+        {
+          path: '/follow',
+          name: 'follow',
+          component: FollowView
+        },
+        {
+          path: '/category',
+          name: 'category',
+          component: CategoryView
+        },
+        {
+          path: "/:pathMatch(.*)",
+          name: "NotFound",
+          component: NotFoundView
+        }
       ]
     },
     {

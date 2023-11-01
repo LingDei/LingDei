@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
 import { apis } from '@/apis'
+import { onMounted, ref } from "vue"
 import type { Category } from '@/model/category';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 
