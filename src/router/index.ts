@@ -35,7 +35,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/',
+      path: '/recommend',
       component: RecommandLayoutVue,
       children: [
         {
