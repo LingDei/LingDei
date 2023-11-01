@@ -9,11 +9,13 @@ import { handleNetworkError } from '@/utils/request/RequestTools';
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
+// const refreshCount = ref(0);
 const category_name = ref<string>('')
 const videoList = ref<Video[]>([]);
 
-async function refresh(){
+async function refresh() {
   const categoryUUID = route.query.uuid as string
+  console.log(categoryUUID)
   const [err, data] = await apis.getCategory(categoryUUID)
   if (err) handleNetworkError(err)
   console.log(data?.category)
@@ -27,6 +29,7 @@ onMounted(async () => {
 
 onBeforeUpdate(async () => {
   await refresh()
+  console.log('refresh')
 })
 
 </script>

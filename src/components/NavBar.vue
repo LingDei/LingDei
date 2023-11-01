@@ -8,6 +8,7 @@ interface Tab {
     type: string // default or category
     name: string
     path: string
+    category?: Category
 }
 
 const tabs = ref<Tab[]>([
@@ -25,7 +26,8 @@ onMounted(async () => {
         tabs.value.push({
             type: 'category',
             name: category.name,
-            path: `/category?uuid=${category.uuid}`,
+            path: `/category`,
+            category: category
         })
     })
 })
@@ -47,13 +49,15 @@ onMounted(async () => {
 
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
-                <RouterLink v-for="(tab,index) in tabs" :key="index" :to="tab.path" class="text-gray-300 hover:text-white">{{ tab.name }}</RouterLink>
+                <!-- 强制页面刷新 -->
+                <RouterLink v-for="(tab, index) in tabs" :key="index"
+                    :to="{ path: tab.path, query: tab.category ? { 'uuid': tab.category?.uuid } : {} }" class="text-gray-300 hover:text-white"
+                    exact>{{ tab.name }}</RouterLink>
             </div>
         </div>
     </nav>
 </template>
 
-<style>
-</style>
+<style></style>
 
   
