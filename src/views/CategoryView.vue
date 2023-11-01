@@ -23,6 +23,7 @@ async function refresh() {
   if (!data) return
   category_name.value = data?.category.name
 
+  videoList.value.length = 0
   const [err2, data2] = await apis.getVideoList(categoryUUID)
   if (err2) handleNetworkError(err2)
   if (!data2 || data2?.video_list.length === 0) return
