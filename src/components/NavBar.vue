@@ -52,7 +52,7 @@ onMounted(async () => {
                 <div>
                     <!-- 投稿按钮 -->
                     <div class="header-upload-entry">
-                        <img src="../assets/svgs/upload-icon.svg" alt="upload" class="header-upload-entry__icon" />
+                        <img src="@/assets/svgs/upload-icon.svg" alt="upload" class="header-upload-entry__icon" />
                         <span class="text-black header-upload-entry__text">投稿</span>
                     </div>
 
