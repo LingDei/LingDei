@@ -21,16 +21,23 @@ async function refresh() {
   console.log(data?.category)
   if (!data) return
   category_name.value = data?.category.name
+
+  console.log(route.query.uuid)
+
+  const [err2, data2] = await apis.getVideoList(route.query.uuid as string)
+  if (err2) handleNetworkError(err2)
+  if (!data2 || data2?.video_list.length === 0) return
+  videoList.value = data2.video_list
 }
 
 onMounted(async () => {
   await refresh()
 })
 
-onBeforeUpdate(async () => {
-  await refresh()
-  console.log('refresh')
-})
+// onBeforeUpdate(async () => {
+//   await refresh()
+//   console.log('refresh')
+// })
 
 </script>
 
@@ -38,8 +45,8 @@ onBeforeUpdate(async () => {
   <div class="container mx-auto mt-8">
     <h1 class="mb-4 text-3xl font-semibold">{{ category_name }}</h1>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <!-- 视频卡片 -->
-      <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
+       <!-- 视频卡片 -->
+       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
     </div>
   </div>
 </template>
