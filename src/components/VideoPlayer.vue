@@ -4,26 +4,10 @@
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
-    <div class="video-player-controls">
-      <button class="video-player-control-btn" @click="togglePlay">
-        {{ state.isPlaying ? "Pause" : "Play" }}
-      </button>
-
-      <div class="video-player-progress-bar">
-        <div class="video-player-progress" :style="{ width: state.progress + '%' }"></div>
-      </div>
-
-      <div class="video-player-volume-bar">
-        <button class="video-player-control-btn" @click="toggleVolume">
-          Volume
-        </button>
-        <input type="range" v-if="state.isVolumeVisible" v-model="state.volume" min="0" max="1" step="0.1" />
-      </div>
-    </div>
     <div class="progress">
       <el-progress></el-progress>
     </div>
-    <div class="video-controls">
+    <div class="video-player-controls">
       <div @click="togglePlay" class="video-player-control">
         <el-icon v-if="state.isPlaying" size="40">
           <VideoPause />
@@ -33,12 +17,32 @@
         </el-icon>
       </div>
       <div>
-        {{ floor(videoRef?.currentTime) }}
+        {{ videoRef?.currentTime && formatTime(videoRef?.currentTime as number) }}
         /
-        {{ floor(videoRef?.duration) }}
+        {{ videoRef?.duration && formatTime(videoRef?.duration as number) }}
       </div>
-      <div>倍速</div>
-      <div>音量</div>
+      <div class="speed">
+        <el-dropdown @command="toggleSpeed">
+          <span class="">
+            {{ state.speed || '倍速' }}
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
+                {{ speed }}x
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+      <div>
+        <div class="video-player-volume-bar">
+          <button class="video-player-control-btn" @click="toggleVolume">
+            Volume
+          </button>
+          <input type="range" v-if="state.isVolumeVisible" v-model="state.volume" min="0" max="1" step="0.1" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +51,10 @@
 import type { Video } from "@/model/video";
 import { reactive, ref } from "vue";
 import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
-import { floor } from '@/utils/format'
+
+import { formatTime } from '@/utils/format'
+import { speeds } from "@/constants/videoPlayer"
+
 const props = defineProps<{
   video: Video
   index: number
@@ -62,6 +69,7 @@ const state = reactive({
   progress: 0,
   isVolumeVisible: false,
   volume: 0.5,
+  speed: ''
 });
 
 const videoRef = ref<HTMLVideoElement | null>(null);
@@ -80,6 +88,11 @@ const toggleVolume = () => {
   state.isVolumeVisible = !state.isVolumeVisible;
 };
 
+const toggleSpeed = (speed: string) => {
+  if (!videoRef.value) return
+  videoRef.value.playbackRate = +speed
+}
+
 const updateProgress = () => {
   if (!videoRef.value) return
   const video = videoRef.value;
@@ -88,11 +101,12 @@ const updateProgress = () => {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .video-player {
   position: relative;
   width: 100%;
   height: 100%;
+  font-size: 20px;
 }
 
 .video-player-video {
@@ -102,23 +116,29 @@ const updateProgress = () => {
 }
 
 .video-player-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 20px;
+  height: 50px;
+
+  .video-player-control {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 }
 
-.video-player-control {
-  cursor: pointer;
-}
+.speed {
+  display: flex;
+  align-items: center;
 
-.video-player-progress-bar {
-  width: 60%;
-  height: 5px;
-  background-color: #ccc;
+  span {
+    font-size: 20px;
+  }
+
+  .speedItem {
+    font-size: 20px;
+  }
 }
 
 .video-player-progress {
