@@ -43,7 +43,7 @@ const router = createRouter({
           component: FollowView
         },
         {
-          path: '/category',
+          path: '/category/:id',
           name: 'category',
           component: CategoryView
         },
@@ -68,6 +68,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  
+
+  // if (to.name === from.name && to.query === from.query) {
+  //   console.log(to, from, next)
+  //   router.push({ name: 'NotFound' })
+
+  // }
+
   const userStore = useUserStore()
   if (whiteList.includes(String(to.name))) {
     next();
