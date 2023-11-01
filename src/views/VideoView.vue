@@ -85,7 +85,7 @@ const initVideoPlayer = () => {
                 </div>
 
                 <!-- 评论区 -->
-                <div class="p-4 mt-4 bg-white rounded-lg shadow-md">
+                <div class="p-4 mt-4 mb-4 bg-white rounded-lg shadow-md">
                     <h2 class="mb-4 text-lg font-semibold text-gray-800">用户评论</h2>
                     <!-- Individual Comments -->
                     <div class="space-y-4">
