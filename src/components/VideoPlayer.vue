@@ -17,9 +17,9 @@
         </el-icon>
       </div>
       <div>
-        {{ videoRef?.currentTime && formatTime(videoRef?.currentTime as number) }}
+        {{ videoRef?.currentTime && formatTime(currentTime as number) }}
         /
-        {{ videoRef?.duration && formatTime(videoRef?.duration as number) }}
+        {{ videoRef?.duration && formatTime(duration as number) }}
       </div>
       <div class="speed">
         <el-dropdown @command="toggleSpeed">
@@ -73,6 +73,15 @@ const state = reactive({
 });
 
 const videoRef = ref<HTMLVideoElement | null>(null);
+const playerLoading = ref(false)
+const currentTime = ref(0)
+const duration = ref(0)
+
+onUpdated(() => {
+  if(!videoRef.value) return
+  currentTime.value = videoRef.value.currentTime
+  duration.value = videoRef.value.duration
+})
 
 const togglePlay = () => {
   if (!videoRef.value) return
@@ -91,6 +100,7 @@ const toggleVolume = () => {
 const toggleSpeed = (speed: string) => {
   if (!videoRef.value) return
   videoRef.value.playbackRate = +speed
+  state.speed = speed + 'x'
 }
 
 const updateProgress = () => {
@@ -147,7 +157,6 @@ const updateProgress = () => {
 }
 
 .video-player-volume-bar {
-  margin-left: 20px;
   position: relative;
 }
 </style>
