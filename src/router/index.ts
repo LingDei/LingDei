@@ -2,6 +2,7 @@ import { whiteList } from '@/constants/whiteList';
 import { useUserStore } from '@/stores/user';
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
+import RecommandLayoutVue from '@/layout/RecommandLayout.vue';
 
 
 const router = createRouter({
@@ -15,11 +16,6 @@ const router = createRouter({
           path: '/',
           name: 'home',
           component: () => import('../views/HomeView.vue')
-        },
-        {
-          path: '/recommend',
-          name: 'recommend',
-          component: () => import('../views/RecommendView.vue')
         },
         {
           path: '/follow',
@@ -36,6 +32,17 @@ const router = createRouter({
           name: "NotFound",
           component: () => import("@/views/NotFoundView.vue"),
         }
+      ]
+    },
+    {
+      path: '/',
+      component: RecommandLayoutVue,
+      children: [
+        {
+          path: '/recommend',
+          name: 'recommend',
+          component: () => import('../views/RecommendView.vue')
+        },
       ]
     },
     {
