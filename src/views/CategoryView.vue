@@ -12,21 +12,21 @@ const route = useRoute()
 const category_name = ref<string>('')
 const videoList = ref<Video[]>([]);
 
-// onMounted(async () => {
-//   console.log(categoryUUID)
-  
-//   const [err, data] = await apis.getCategory(categoryUUID)
-//   if (err) handleNetworkError(err)
-//   console.log(data?.category)
-// })
-
-onBeforeUpdate(async () => {
+async function refresh(){
   const categoryUUID = route.query.uuid as string
   const [err, data] = await apis.getCategory(categoryUUID)
   if (err) handleNetworkError(err)
   console.log(data?.category)
   if (!data) return
   category_name.value = data?.category.name
+}
+
+onMounted(async () => {
+  await refresh()
+})
+
+onBeforeUpdate(async () => {
+  await refresh()
 })
 
 </script>
