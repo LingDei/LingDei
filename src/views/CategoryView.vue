@@ -12,31 +12,41 @@ const route = useRoute()
 const category_name = ref<string>('')
 const videoList = ref<Video[]>([]);
 
-// onMounted(async () => {
-//   console.log(categoryUUID)
-  
-//   const [err, data] = await apis.getCategory(categoryUUID)
-//   if (err) handleNetworkError(err)
-//   console.log(data?.category)
-// })
+const pre_uuid = ref("")
 
-onBeforeUpdate(async () => {
-  const categoryUUID = route.query.uuid as string
+async function refresh() {
+  const categoryUUID = route.params.id as string
+  console.log(categoryUUID)
   const [err, data] = await apis.getCategory(categoryUUID)
   if (err) handleNetworkError(err)
   console.log(data?.category)
   if (!data) return
   category_name.value = data?.category.name
+
+  const [err2, data2] = await apis.getVideoList(categoryUUID)
+  if (err2) handleNetworkError(err2)
+  if (!data2 || data2?.video_list.length === 0) return
+  videoList.value = data2.video_list
+
+}
+
+onMounted(async () => {
+  await refresh()
 })
 
+onUpdated(async () => {
+  if( pre_uuid.value === route.params.id as string) return
+  pre_uuid.value = route.params.id as string
+  await refresh()
+})
 </script>
 
 <template>
   <div class="container mx-auto mt-8">
     <h1 class="mb-4 text-3xl font-semibold">{{ category_name }}</h1>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <!-- 视频卡片 -->
-      <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
+       <!-- 视频卡片 -->
+       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
     </div>
   </div>
 </template>

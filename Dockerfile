@@ -1,23 +1,18 @@
 # 基础 image
 FROM node:18-alpine
 
-# install simple http server for serving static content
-RUN npm install -g http-server
+RUN yarn config set registry https://registry.npmmirror.com/
 
-# make the 'app' folder the current working directory
 WORKDIR /app
 
-# copy both 'package.json' and 'package-lock.json' (if available)
-COPY package*.json ./
-
-# install project dependencies
-RUN npm install
-
-# copy project files and folders to the current working directory (i.e. 'app' folder)
+# 复制项目文件
 COPY . .
 
-# build app for production with minification
-RUN npm run build
+# 打包
+RUN yarn
+# RUN yarn install --production
+# RUN yarn build
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+# 运行命令
+EXPOSE 5173
+CMD yarn dev --host 0.0.0.0
