@@ -47,8 +47,7 @@ onMounted(async () => {
 
         <div class="container mx-auto mt-4">
             <div class="flex space-x-4">
-                <RouterLink v-for="(tab,index) in tabs" :key="index" :to="tab.path" class="text-gray-300 hover:text-white">{{
-                    tab.name }}</RouterLink>
+                <RouterLink v-for="(tab,index) in tabs" :key="index" :to="tab.path" class="text-gray-300 hover:text-white">{{ tab.name }}</RouterLink>
             </div>
         </div>
     </nav>
