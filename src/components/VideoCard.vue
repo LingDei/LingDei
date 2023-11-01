@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import type { Video } from '@/model/video';
+import router from '@/router';
 
-defineProps({
+const props = defineProps({
     video: {
         type: Object as () => Video,
         required: true,
     },
 });
+
+const handleClick = () => {
+    router.push({ name: 'video', params: { id: props.video.uuid } });
+};
 </script>
 
 <template>
-    <div class="overflow-hidden bg-white rounded-lg shadow-md">
+    <div class="overflow-hidden bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg" @click="handleClick">
         <img :src="video.thumbnail_url" :alt="video.name" class="object-cover w-full h-48" />
         <div class="p-4">
             <!-- 使内容在一行展示 -->
