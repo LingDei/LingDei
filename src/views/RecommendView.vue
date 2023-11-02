@@ -22,50 +22,56 @@ const indexInfo = computed(() => ({
 }))
 
 function up() {
-  if (index.value === 0) return
+  if (index.value === 0) {
+    ElMessage.info('当前视频已经是第一条啦，请往下刷')
+    return
+  }
   index.value--
 }
 
 function down() {
-  if (index.value === videoList.value.length) return
+  if (index.value === videoList.value.length) {
+    ElMessage.info('当前视频已经是第一条啦，请往下刷或者刷新')
+    return
+  }
   index.value++
 }
 
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <div class="videoList">
       <div v-for="(video, i) in videoList" :key="video.url">
         <VideoPlayer :video="video" :index="i" :indexInfo="indexInfo"></VideoPlayer>
       </div>
     </div>
     <div class="switchVideo">
-      <el-icon size="20">
-        <ArrowUpBold />
+      <el-icon size="20" @click="up" class="up">
+        <el-icon-arrowUpBold />
       </el-icon>
-      <el-icon size="20">
-        <ArrowDownBold />
+      <el-icon size="20" @click="down" class="down">
+        <el-icon-arrowDownBold />
       </el-icon>
-      <button @click="up">上</button>
-      <button @click="down">下</button>
+      <!-- <button @click="up">上</button>
+      <button @click="down">下</button> -->
     </div>
   </main>
 </template>
 
 <style lang="less">
-.videoList {
-  margin: 0 auto;
-  width: 60%;
-  height: 90%;
-  min-height: 400px;
-}
+  .videoList {
+    margin: 0 auto;
+    width: 60%;
+    height: 90%;
+    min-height: 400px;
+  }
 
-.switchVideo {
-  display: flex;
-  flex-direction: column;
-  border-radius: 30%;
-  width: 60px;
-  height: 120px;
-}
+  .switchVideo {
+    display: flex;
+    flex-direction: column;
+    border-radius: 30%;
+    width: 60px;
+    height: 120px;
+  }
 </style>
