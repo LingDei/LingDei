@@ -7,13 +7,16 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./components/VideoCard copy.vue')['default']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElIconArrowDownBold: typeof import('@element-plus/icons-vue')['ArrowDownBold']
     ElIconArrowUpBold: typeof import('@element-plus/icons-vue')['ArrowUpBold']
+    ElIconStar: typeof import('@element-plus/icons-vue')['Star']
     ElProgress: typeof import('element-plus/es')['ElProgress']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     IconCommunity: typeof import('./components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./components/icons/IconEcosystem.vue')['default']
@@ -26,5 +29,6 @@ declare module 'vue' {
     UserAvatar: typeof import('./components/UserAvatar.vue')['default']
     VideoCard: typeof import('./components/VideoCard.vue')['default']
     VideoPlayer: typeof import('./components/VideoPlayer.vue')['default']
+    VideoSmallCard: typeof import('./components/VideoSmallCard.vue')['default']
   }
 }

@@ -53,6 +53,28 @@ const router = createRouter({
           component: () => import('../views/VideoView.vue')
         },
         {
+          path: '/user/center',
+          name: 'center',
+          component: () => import('../views/user/CenterView.vue'),
+          children: [
+            {
+              path: '/user/profile',
+              name: 'profile',
+              component: () => import('../views/user/ProfileView.vue')
+            },
+            {
+              path: '/user/my_video',
+              name: 'my_video',
+              component: () => import('../views/user/MyVideoView.vue')
+            },
+            {
+              path: '/user/my_star',
+              name: 'my_star',
+              component: () => import('../views/user/MyStarView.vue')
+            },
+          ]
+        },
+        {
           path: "/:pathMatch(.*)",
           name: "NotFound",
           component: NotFoundView
@@ -73,7 +95,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  
+
 
   // if (to.name === from.name && to.query === from.query) {
   //   console.log(to, from, next)
