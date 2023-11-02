@@ -59,19 +59,34 @@ function down() {
   </main>
 </template>
 
-<style lang="less">
-  .videoList {
-    margin: 0 auto;
-    width: 60%;
-    height: 90%;
-    min-height: 400px;
-  }
+<style lang="less" scoped>
+.main {
+  position: relative;
+}
 
-  .switchVideo {
-    display: flex;
-    flex-direction: column;
-    border-radius: 30%;
-    width: 60px;
-    height: 120px;
-  }
+.videoList {
+  margin: 0 auto;
+  width: 60%;
+  height: 90%;
+  min-height: 400px;
+}
+
+.switchVideo {
+  position: absolute;
+  top: 40%;
+  right: 14%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 30%;
+  height: 100px;
+  width: 60px;
+  background-color: black;
+}
+
+.up,
+.down {
+  cursor: pointer;
+}
 </style>
