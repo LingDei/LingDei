@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { apis } from '@/apis'
-import { useUserStore } from '@/stores/user'
 import { handleNetworkError } from '@/utils/request/RequestTools';
-import router from '@/router';
 import type { Profile } from '@/model/profile';
-const userStore = useUserStore()
 
 const profile = ref<Profile>();
+
+interface Tab {
+    name: string
+    title: string
+}
+
+const tabs = ref<Tab[]>([
+    { title: '我的视频', name: 'my_video' },
+    { title: '我的收藏', name: 'my_star' },
+    { title: '个人资料', name: 'profile' },
+])
 
 async function init() {
     const [err, data] = await apis.getProfile();
@@ -35,9 +43,6 @@ onMounted(() => {
                         <p class="text-gray-100">{{ profile?.email }}</p>
                     </div>
 
-                    <!-- 个人资料修改按钮 -->
-                    <!-- <button class="px-4 py-2 ml-auto mr-5 text-black rounded bg-slate-100 hover:bg-slate-200">编辑资料</button> -->
-
                     <!-- 粉丝数 -->
                     <div class="flex items-center ml-auto mr-5">
                         <p class="mr-2 text-xl font-bold text-white">0</p>
@@ -48,9 +53,7 @@ onMounted(() => {
 
             <!-- Tab 栏 -->
             <div class="flex items-center mb-8">
-                <RouterLink :to="{name: 'my_video'}" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">我的视频</RouterLink>
-                <RouterLink :to="{name: 'my_star'}" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">我的收藏</RouterLink>
-                <RouterLink :to="{name: 'profile'}" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">个人资料</RouterLink>
+                <RouterLink v-for="(tab, index) in tabs" :key="index" :to="{name: tab.name}" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">{{ tab.title }}</RouterLink>
             </div>
 
             <!-- Tab 内容 -->
