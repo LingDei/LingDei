@@ -8,8 +8,6 @@ function formatTwoPad(num: number) {
 }
 
 export function formatTime(time: number) {
-  console.log(time);
-  
   if (time < 60) return `00:${formatTwoPad(time)}`
   if (time < 3600) {
     return formatTwoPad(time / 60) + ':' + formatTwoPad(time % 60)
