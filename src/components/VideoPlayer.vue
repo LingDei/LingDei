@@ -1,5 +1,5 @@
 <template>
-  <div class="video-player" v-if="indexInfo.indexs.includes(index)" v-show="index === indexInfo.index">
+  <div class="video-player">
     <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress" @durationchange="durationchange"
       @canplay="canplay" autoplay="true" muted="true">
       <source :src="props.video?.url" type="video/mp4" />
@@ -39,13 +39,14 @@
       <div>
         <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
           <button class="video-player-control-btn" @click="toggleVolume">Volume</button>
-          <div class="video-player-volume-slider" @mouseenter="showVolumeSlider" :style="{ display: volumeSliderDisplay }">
+          <div class="video-player-volume-slider" @mouseenter="showVolumeSlider"
+            :style="{ display: volumeSliderDisplay }">
             <el-slider v-model="state.volume" vertical height="80px" />
           </div>
         </div>
       </div>
       <div class="video-player-volume-muted">
-        <el-switch v-model="state.muted" @change="toggleMuted" class="" />
+        <el-switch v-model="state.muted" @change="(v) => toggleMuted(v as boolean)" />
         <div>静音</div>
       </div>
     </div>
@@ -62,11 +63,6 @@ import { speeds } from '@/constants/videoPlayer'
 
 const props = defineProps<{
   video: Video
-  index: number
-  indexInfo: {
-    index: number
-    indexs: number[]
-  }
 }>()
 
 const state = reactive({
@@ -113,24 +109,22 @@ const toggleSpeed = (speed: string) => {
   state.speed = speed + 'x'
 }
 
-function toggleMuted() {
+function toggleMuted(v: boolean) {
   if (videoRef.value) {
-    console.log(state.muted, !state.muted);
-
-    state.muted = !state.muted
-    videoRef.value.muted = state.muted
+    videoRef.value.muted = v
+    state.muted = v
   }
 }
 
 function showVolumeSlider() {
-  if(timer.value){
+  if (timer.value) {
     clearTimeout(timer.value)
   }
   volumeSliderDisplay.value = 'block'
 }
 
 function closeVolumeSlider() {
-  if(timer.value){
+  if (timer.value) {
     clearTimeout(timer.value)
   }
   timer.value = setTimeout(() => {
@@ -164,7 +158,7 @@ watch(state, () => {
 .video-player-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  max-height: 770px;
 }
 
 .video-player-controls {

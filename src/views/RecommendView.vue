@@ -43,7 +43,8 @@ function down() {
   <main class="main">
     <div class="videoList">
       <div v-for="(video, i) in videoList" :key="video.url">
-        <VideoPlayer :video="video" :index="i" :indexInfo="indexInfo"></VideoPlayer>
+        <VideoPlayer :video="video" v-if="indexInfo.indexs.includes(i)"
+          v-show="i === indexInfo.index"></VideoPlayer>
       </div>
     </div>
     <div class="switchVideo">
@@ -53,8 +54,6 @@ function down() {
       <el-icon size="20" @click="down" class="down">
         <el-icon-arrowDownBold />
       </el-icon>
-      <!-- <button @click="up">上</button>
-      <button @click="down">下</button> -->
     </div>
   </main>
 </template>
