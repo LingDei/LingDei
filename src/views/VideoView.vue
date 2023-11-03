@@ -14,6 +14,13 @@ const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
     loop: { active: true },
 });
 
+// 增加视频播放量
+async function addVideoViews() {
+    const [err, data] = await apis.addVideoViews(video.value.uuid)
+    if (err) handleNetworkError(err)
+    if (data?.code != 200) return
+}
+
 onMounted(async () => {
     const id = route.params.id;
     console.log(id)
@@ -25,6 +32,8 @@ onMounted(async () => {
     console.log(video.value)
     
     initVideoPlayer();
+
+    addVideoViews();
 });
 
 const initVideoPlayer = () => {

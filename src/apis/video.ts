@@ -40,6 +40,13 @@ function deleteVideo(uuid: string): Promise<[any, OperationResponse | undefined]
   return Delete('/video/delete', { uuid })
 }
 
+// 增加视频播放量
+function addVideoViews(uuid: string): Promise<[any, OperationResponse | undefined]> {
+  const form = new FormData()
+  form.append("uuid", uuid)
+  return Post('/video/views/add', form)
+}
+
 export const videoApis = {
   getVideoList,
   getVideo,
@@ -47,4 +54,5 @@ export const videoApis = {
   updateVideo,
   deleteVideo,
   getUploadToken,
+  addVideoViews,
 }
