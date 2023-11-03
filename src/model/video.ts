@@ -21,6 +21,7 @@ interface VideoListResponse {
 
 interface UploadTokenResponse {
     code: number
+    video_uuid: string
     upload_token: string
 }
 
