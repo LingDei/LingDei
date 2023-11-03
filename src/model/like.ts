@@ -1,7 +1,10 @@
+import type { Video } from "./video"
+
 interface Like {
     uuid: string
     user_uuid: string
     video_uuid: string
+    video: Video
 }
 
 interface LikeResponse {
