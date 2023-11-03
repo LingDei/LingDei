@@ -19,7 +19,7 @@ const userStore = useUserStore();
             <div>
                 <div v-if="userStore.isLogin">
                     <!-- 已登录 -->
-                    <RouterLink :to="{ name: 'center' }" class="block p-2 rounded hover:bg-gray-200">个人中心</RouterLink>
+                    <RouterLink :to="{ name: 'my_video' }" class="block p-2 rounded hover:bg-gray-200">个人中心</RouterLink>
                     <a href="#" class="block p-2 rounded hover:bg-gray-200" @click="userStore.logout">注销</a>
                 </div>
                 <div v-else>
