@@ -2,11 +2,27 @@ import { whiteList } from '@/constants/whiteList';
 import { useUserStore } from '@/stores/user';
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
-
+import RecommandLayoutVue from '@/layout/RecommandLayout.vue';
+import HomeView from '@/views/HomeView.vue'
+import RecommendView from '@/views/RecommendView.vue'
+import FollowView from '@/views/FollowView.vue'
+import CategoryView from '@/views/CategoryView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/recommend',
+      component: RecommandLayoutVue,
+      children: [
+        {
+          path: '/recommend',
+          name: 'recommend',
+          component: RecommendView
+        },
+      ]
+    },
     {
       path: '/',
       component: AppLayout,
@@ -14,22 +30,59 @@ const router = createRouter({
         {
           path: '/',
           name: 'home',
-          component: () => import('../views/HomeView.vue')
+          component: HomeView
         },
-        {
-          path: '/recommend',
-          name: 'recommend',
-          component: () => import('../views/RecommendView.vue')
-        },
+        // {
+        //   path: '/recommend',
+        //   name: 'recommend',
+        //   component: RecommendView
+        // },
         {
           path: '/follow',
           name: 'follow',
-          component: () => import('../views/FollowView.vue')
+          component: FollowView
         },
         {
-          path: '/category',
+          path: '/category/:id',
           name: 'category',
-          component: () => import('../views/CategoryView.vue')
+          component: CategoryView
+        },
+        {
+          path: '/video/:id',
+          name: 'video',
+          component: () => import('../views/VideoView.vue')
+        },
+        {
+          path: '/upload',
+          name: 'upload',
+          component: () => import('../views/UploadView.vue')
+        },
+        {
+          path: '/user/center',
+          name: 'center',
+          component: () => import('../views/user/CenterView.vue'),
+          children: [
+            {
+              path: '/user/profile',
+              name: 'profile',
+              component: () => import('../views/user/ProfileView.vue')
+            },
+            {
+              path: '/user/my_video',
+              name: 'my_video',
+              component: () => import('../views/user/MyVideoView.vue')
+            },
+            {
+              path: '/user/my_star',
+              name: 'my_star',
+              component: () => import('../views/user/MyStarView.vue')
+            },
+          ]
+        },
+        {
+          path: "/:pathMatch(.*)",
+          name: "NotFound",
+          component: NotFoundView
         }
       ]
     },
@@ -47,6 +100,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
+
+  // if (to.name === from.name && to.query === from.query) {
+  //   console.log(to, from, next)
+  //   router.push({ name: 'NotFound' })
+
+  // }
+
   const userStore = useUserStore()
   if (whiteList.includes(String(to.name))) {
     next();

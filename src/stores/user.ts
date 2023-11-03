@@ -6,7 +6,7 @@ import { handleNetworkError } from '@/utils/request/RequestTools'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref('')
-  const profile: Ref<Profile> = ref({
+  const profile = ref<Profile>({
     id: '',
     nickname: '',
     email: '',

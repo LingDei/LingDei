@@ -2,5 +2,7 @@ export const whiteList = [
   'home',
   'recommend',
   'login',
-  'register'
+  'register',
+  'category',
+  'video',
 ]
