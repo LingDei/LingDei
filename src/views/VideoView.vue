@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { usePlyrVue, PlyrVue } from "plyr-vue";
+import VideoPlayer from '@/components/VideoPlayer.vue'
+// import { usePlyrVue, PlyrVue } from "plyr-vue";
 // import type { PlyrVueOptions, PlyrVueInstance } from "plyr-vue";
 import "plyr-vue/dist/plyr-vue.css";
 import { useRoute } from 'vue-router'
@@ -10,9 +11,9 @@ import { handleNetworkError } from '@/utils/request/RequestTools';
 const route = useRoute()
 const video = ref<Video>({} as Video)
 
-const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
-    loop: { active: true },
-});
+// const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
+//     loop: { active: true },
+// });
 
 // 增加视频播放量
 async function addVideoViews() {
@@ -30,26 +31,26 @@ onMounted(async () => {
     if (!data || !data?.video) return
     video.value = data.video
     console.log(video.value)
-    
-    initVideoPlayer();
+
+    // initVideoPlayer();
 
     addVideoViews();
 });
 
-const initVideoPlayer = () => {
-    videoPlayerInstance.value.source = {
-        type: "video",
-        title: "",
-        sources: [
-            {
-                src: video.value.url,
-                type: "video/mp4",
-            },
-        ],
-        poster: video.value.thumbnail_url,
-    };
-    videoPlayerInstance.value.play();
-};
+// const initVideoPlayer = () => {
+//     videoPlayerInstance.value.source = {
+//         type: "video",
+//         title: "",
+//         sources: [
+//             {
+//                 src: video.value.url,
+//                 type: "video/mp4",
+//             },
+//         ],
+//         poster: video.value.thumbnail_url,
+//     };
+//     videoPlayerInstance.value.play();
+// };
 
 </script>
 
@@ -66,12 +67,8 @@ const initVideoPlayer = () => {
                 <!-- 视频播放器 -->
                 <div class="relative mt-4 mb-6 bg-white rounded-lg shadow-md">
                     <div class="rounded-t-lg aspect-ratio-16/9">
-                        <plyr-vue @register="registerVideoPlayer"  />
-                        <!-- <plyr-vue @register="registerVideoPlayer" ref="plyr">
-                                <video controls playsinline :poster="video.thumbnail_url">
-                                    <source :src="video.url" type="video/mp4" />
-                                </video>
-                            </plyr-vue> -->
+                        <VideoPlayer :video="video" :playable-video="true"></VideoPlayer>
+                        <!-- <plyr-vue @register="registerVideoPlayer"  /> -->
                     </div>
                 </div>
 
