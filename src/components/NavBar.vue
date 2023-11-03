@@ -4,6 +4,7 @@ import { apis } from '@/apis'
 import { onMounted, ref } from "vue"
 import type { Category } from '@/model/category';
 import { handleNetworkError } from '@/utils/request/RequestTools';
+import router from '@/router';
 
 interface Tab {
     type: string // default or category
@@ -51,7 +52,7 @@ onMounted(async () => {
                 <!-- 顶部操作icon -->
                 <div>
                     <!-- 投稿按钮 -->
-                    <div class="header-upload-entry">
+                    <div class="header-upload-entry" @click="router.push({name:'upload'})">
                         <img src="@/assets/svgs/upload-icon.svg" alt="upload" class="header-upload-entry__icon" />
                         <span class="text-black header-upload-entry__text">投稿</span>
                     </div>

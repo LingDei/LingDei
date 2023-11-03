@@ -4,14 +4,14 @@ import LNavBar from '@/components/NavBar.vue'
 import LFooter from '@/components/PageFooter.vue';
 </script>
 
-<template>
+<template class="bg-gray-100">
   <LNavBar />
 
-  <RouterView />
+  <div class="mb-10">
+    <RouterView />
+  </div>
 
   <LFooter />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
