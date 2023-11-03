@@ -30,7 +30,7 @@ function up() {
 }
 
 function down() {
-  if (index.value === videoList.value.length) {
+  if (index.value === videoList.value.length - 1) {
     ElMessage.info('当前视频已经是第一条啦，请往下刷或者刷新')
     return
   }
@@ -43,8 +43,8 @@ function down() {
   <main class="main">
     <div class="videoList">
       <div v-for="(video, i) in videoList" :key="video.url">
-        <VideoPlayer :video="video" v-if="indexInfo.indexs.includes(i)"
-          v-show="i === indexInfo.index"></VideoPlayer>
+        <VideoPlayer :video="video" v-if="indexInfo.indexs.includes(i)" v-show="i === indexInfo.index"
+          :playable-video="i === indexInfo.index"></VideoPlayer>
       </div>
     </div>
     <div class="switchVideo">

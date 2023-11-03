@@ -1,7 +1,7 @@
 <template>
   <div class="video-player">
     <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress" @durationchange="durationchange"
-      @canplay="canplay" :muted="true">
+      @canplay="canplay" :muted="volumeStore.muted">
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
@@ -38,15 +38,15 @@
       </div>
       <div>
         <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
-          <button class="video-player-control-btn" @click="toggleVolume">Volume</button>
+          <button>Volume</button>
           <div class="video-player-volume-slider" @mouseenter="showVolumeSlider"
             :style="{ display: volumeSliderDisplay }">
-            <el-slider v-model="state.volume" vertical height="80px" />
+            <el-slider v-model="volumeStore.volume" vertical height="80px" @input="(v) => changeVolume(v as number)" />
           </div>
         </div>
       </div>
       <div class="video-player-volume-muted">
-        <el-switch v-model="state.muted" @change="(v) => toggleMuted(v as boolean)" />
+        <el-switch v-model="volumeStore.muted" @change="(v) => toggleMuted(v as boolean)" />
         <div>静音</div>
       </div>
     </div>
@@ -60,18 +60,17 @@ import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
 
 import { formatTime } from '@/utils/format'
 import { speeds } from '@/constants/videoPlayer'
+import { useVolumeStore } from '@/stores/volume'
 
 const props = defineProps<{
-  video: Video
+  video: Video,
+  playableVideo: boolean
 }>()
 
 const state = reactive({
   isPlaying: false,
   progress: 0,
-  isVolumeVisible: false,
-  volume: 0,
-  speed: '',
-  muted: true
+  speed: ''
 })
 
 const videoRef = ref<HTMLVideoElement | null>(null)
@@ -80,13 +79,17 @@ const duration = ref(0)
 const volumeSliderDisplay = ref('none')
 const timer = ref()
 
+const volumeStore = useVolumeStore()
+
 function durationchange(e: Event) {
   // @ts-ignore todo, video.target的类型暂时未知
   duration.value = e.target.duration
 }
 
 function canplay() {
-  togglePlay()
+  if (props.playableVideo && videoRef.value) {
+    togglePlay()
+  }
 }
 
 const togglePlay = () => {
@@ -99,10 +102,6 @@ const togglePlay = () => {
   }
 }
 
-const toggleVolume = () => {
-  state.isVolumeVisible = !state.isVolumeVisible
-}
-
 const toggleSpeed = (speed: string) => {
   if (!videoRef.value) return
   videoRef.value.playbackRate = +speed
@@ -112,7 +111,7 @@ const toggleSpeed = (speed: string) => {
 function toggleMuted(v: boolean) {
   if (videoRef.value) {
     videoRef.value.muted = v
-    state.muted = v
+    volumeStore.changeMuted(v)
   }
 }
 
@@ -132,6 +131,13 @@ function closeVolumeSlider() {
   }, 500);
 }
 
+function changeVolume(value: number) {
+  if (videoRef.value) {
+    videoRef.value.volume = value * 0.01
+    volumeStore.changeVolume(value)
+  }
+}
+
 const updateProgress = () => {
   if (!videoRef.value) return
   const video = videoRef.value
@@ -140,9 +146,16 @@ const updateProgress = () => {
   currentTime.value = videoRef.value.currentTime
 }
 
-watch(state, () => {
-  if (videoRef.value) {
-    videoRef.value.volume = state.volume * 0.01
+watch(props, () => {
+  if (videoRef.value === null) return
+
+  if (props.playableVideo === false && state.isPlaying) {
+    videoRef.value.pause()
+    state.isPlaying = false
+  }
+  if (props.playableVideo === true && !state.isPlaying) {
+    videoRef.value.play()
+    state.isPlaying = true
   }
 })
 </script>
