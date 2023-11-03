@@ -1,6 +1,18 @@
 <template>
-  <div class="video-player" v-if="indexInfo.indexs.includes(index)" v-show="index === indexInfo.index">
-    <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress">
+  <div
+    class="video-player"
+    v-if="indexInfo.indexs.includes(index)"
+    v-show="index === indexInfo.index"
+  >
+    <video
+      ref="videoRef"
+      class="video-player-video"
+      @timeupdate="updateProgress"
+      @durationchange="durationchange"
+      @canplay="canplay"
+      autoplay="true"
+      muted="true"
+    >
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
@@ -17,9 +29,9 @@
         </el-icon>
       </div>
       <div>
-        {{ videoRef?.currentTime && formatTime(currentTime as number) }}
+        {{ formatTime(currentTime) }}
         /
-        {{ videoRef?.duration && formatTime(duration as number) }}
+        {{ formatTime(duration) }}
       </div>
       <div class="speed">
         <el-dropdown @command="toggleSpeed">
@@ -28,7 +40,12 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
+              <el-dropdown-item
+                v-for="speed in speeds"
+                :key="speed"
+                class="speedItem"
+                :command="speed"
+              >
                 {{ speed }}x
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -37,10 +54,15 @@
       </div>
       <div>
         <div class="video-player-volume-bar">
-          <button class="video-player-control-btn" @click="toggleVolume">
-            Volume
-          </button>
-          <input type="range" v-if="state.isVolumeVisible" v-model="state.volume" min="0" max="1" step="0.1" />
+          <button class="video-player-control-btn" @click="toggleVolume">Volume</button>
+          <input
+            type="range"
+            v-if="state.isVolumeVisible"
+            v-model="state.volume"
+            min="0"
+            max="1"
+            step="0.1"
+          />
         </div>
       </div>
     </div>
@@ -48,12 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Video } from "@/model/video";
-import { reactive, ref } from "vue";
+import type { Video } from '@/model/video'
+import { reactive, ref } from 'vue'
 import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
 
 import { formatTime } from '@/utils/format'
-import { speeds } from "@/constants/videoPlayer"
+import { speeds } from '@/constants/videoPlayer'
 
 const props = defineProps<{
   video: Video
@@ -70,32 +92,35 @@ const state = reactive({
   isVolumeVisible: false,
   volume: 0.5,
   speed: ''
-});
+})
 
-const videoRef = ref<HTMLVideoElement | null>(null);
+const videoRef = ref<HTMLVideoElement | null>(null)
 const playerLoading = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 
-onUpdated(() => {
-  if(!videoRef.value) return
-  currentTime.value = videoRef.value.currentTime
-  duration.value = videoRef.value.duration
-})
+function durationchange(e: Event) {
+  // @ts-ignore todo, video.target的类型暂时未知
+  duration.value = e.target.duration
+}
+
+function canplay() {
+  state.isPlaying = true
+}
 
 const togglePlay = () => {
   if (!videoRef.value) return
-  state.isPlaying = !state.isPlaying;
+  state.isPlaying = !state.isPlaying
   if (state.isPlaying) {
-    videoRef.value.play();
+    videoRef.value.play()
   } else {
-    videoRef.value.pause();
+    videoRef.value.pause()
   }
-};
+}
 
 const toggleVolume = () => {
-  state.isVolumeVisible = !state.isVolumeVisible;
-};
+  state.isVolumeVisible = !state.isVolumeVisible
+}
 
 const toggleSpeed = (speed: string) => {
   if (!videoRef.value) return
@@ -105,10 +130,11 @@ const toggleSpeed = (speed: string) => {
 
 const updateProgress = () => {
   if (!videoRef.value) return
-  const video = videoRef.value;
-  const progress = (video.currentTime / video.duration) * 100;
-  state.progress = Math.floor(progress);
-};
+  const video = videoRef.value
+  const progress = (video.currentTime / video.duration) * 100
+  state.progress = Math.floor(progress)
+  currentTime.value = videoRef.value.currentTime
+}
 </script>
 
 <style lang="less" scoped>
