@@ -84,19 +84,14 @@ async function completeUpload(e: any) {
 </script>
 
 <template>
-    <div class="p-4 bg-gray-100">
-        <div class="max-w-4xl p-8 mx-auto bg-white rounded shadow-lg">
+    <div class="flex items-center justify-center p-4 mt-20 mb-20">
+        <div class="w-9/12 p-8 mx-auto bg-white rounded shadow-lg">
             <h1 class="mb-4 text-2xl font-semibold">视频投稿</h1>
             <div>
                 <div class="mb-4">
                     <label for="videoTitle" class="block text-gray-600">视频标题</label>
                     <input v-model="form.name" type="text" id="videoTitle" name="videoTitle"
                         class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200" />
-                </div>
-                <div class="mb-4">
-                    <label for="videoDescription" class="block text-gray-600">视频描述</label>
-                    <textarea id="videoDescription" name="videoDescription"
-                        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="videoCategory" class="block text-gray-600">视频分类</label>
