@@ -1,29 +1,14 @@
 <template>
-  <div class="video-player" v-if="indexInfo.indexs.includes(index)" v-show="index === indexInfo.index">
-    <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress">
+  <div class="video-player">
+    <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress" @durationchange="durationchange"
+      @canplay="canplay" :muted="volumeStore.muted">
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
-    <div class="video-player-controls">
-      <button class="video-player-control-btn" @click="togglePlay">
-        {{ state.isPlaying ? "Pause" : "Play" }}
-      </button>
-
-      <div class="video-player-progress-bar">
-        <div class="video-player-progress" :style="{ width: state.progress + '%' }"></div>
-      </div>
-
-      <div class="video-player-volume-bar">
-        <button class="video-player-control-btn" @click="toggleVolume">
-          Volume
-        </button>
-        <input type="range" v-if="state.isVolumeVisible" v-model="state.volume" min="0" max="1" step="0.1" />
-      </div>
-    </div>
     <div class="progress">
-      <el-progress></el-progress>
+      <el-progress :percentage="state.progress"></el-progress>
     </div>
-    <div class="video-controls">
+    <div class="video-player-controls">
       <div @click="togglePlay" class="video-player-control">
         <el-icon v-if="state.isPlaying" size="40">
           <VideoPause />
@@ -33,92 +18,186 @@
         </el-icon>
       </div>
       <div>
-        {{ floor(videoRef?.currentTime as number) }}
+        {{ formatTime(currentTime) }}
         /
-        {{ floor(videoRef?.duration as number) }}
+        {{ formatTime(duration) }}
       </div>
-      <div>倍速</div>
-      <div>音量</div>
+      <div class="speed">
+        <el-dropdown @command="toggleSpeed">
+          <span class="">
+            {{ state.speed || '倍速' }}
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
+                {{ speed }}x
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+      <div>
+        <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
+          <button>Volume</button>
+          <div class="video-player-volume-slider" @mouseenter="showVolumeSlider"
+            :style="{ display: volumeSliderDisplay }">
+            <el-slider v-model="volumeStore.volume" vertical height="80px" @input="(v) => changeVolume(v as number)" />
+          </div>
+        </div>
+      </div>
+      <div class="video-player-volume-muted">
+        <el-switch v-model="volumeStore.muted" @change="(v) => toggleMuted(v as boolean)" />
+        <div>静音</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Video } from "@/model/video";
-import { reactive, ref } from "vue";
+import type { Video } from '@/model/video'
+import { reactive, ref, watch } from 'vue'
 import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
-import { floor } from '@/utils/format'
+
+import { formatTime } from '@/utils/format'
+import { speeds } from '@/constants/videoPlayer'
+import { useVolumeStore } from '@/stores/volume'
+
 const props = defineProps<{
-  video: Video
-  index: number
-  indexInfo: {
-    index: number
-    indexs: number[]
-  }
+  video: Video,
+  playableVideo: boolean
 }>()
 
 const state = reactive({
   isPlaying: false,
   progress: 0,
-  isVolumeVisible: false,
-  volume: 0.5,
-});
+  speed: ''
+})
 
-const videoRef = ref<HTMLVideoElement | null>(null);
+const videoRef = ref<HTMLVideoElement | null>(null)
+const currentTime = ref(0)
+const duration = ref(0)
+const volumeSliderDisplay = ref('none')
+const timer = ref()
+
+const volumeStore = useVolumeStore()
+
+function durationchange(e: Event) {
+  // @ts-ignore todo, video.target的类型暂时未知
+  duration.value = e.target.duration
+}
+
+function canplay() {
+  if (props.playableVideo && videoRef.value) {
+    togglePlay()
+  }
+}
 
 const togglePlay = () => {
   if (!videoRef.value) return
-  state.isPlaying = !state.isPlaying;
+  state.isPlaying = !state.isPlaying
   if (state.isPlaying) {
-    videoRef.value.play();
+    videoRef.value.play()
   } else {
-    videoRef.value.pause();
+    videoRef.value.pause()
   }
-};
+}
 
-const toggleVolume = () => {
-  state.isVolumeVisible = !state.isVolumeVisible;
-};
+const toggleSpeed = (speed: string) => {
+  if (!videoRef.value) return
+  videoRef.value.playbackRate = +speed
+  state.speed = speed + 'x'
+}
+
+function toggleMuted(v: boolean) {
+  if (videoRef.value) {
+    videoRef.value.muted = v
+    volumeStore.changeMuted(v)
+  }
+}
+
+function showVolumeSlider() {
+  if (timer.value) {
+    clearTimeout(timer.value)
+  }
+  volumeSliderDisplay.value = 'block'
+}
+
+function closeVolumeSlider() {
+  if (timer.value) {
+    clearTimeout(timer.value)
+  }
+  timer.value = setTimeout(() => {
+    volumeSliderDisplay.value = 'none'
+  }, 500);
+}
+
+function changeVolume(value: number) {
+  if (videoRef.value) {
+    videoRef.value.volume = value * 0.01
+    volumeStore.changeVolume(value)
+  }
+}
 
 const updateProgress = () => {
   if (!videoRef.value) return
-  const video = videoRef.value;
-  const progress = (video.currentTime / video.duration) * 100;
-  state.progress = Math.floor(progress);
-};
+  const video = videoRef.value
+  const progress = (video.currentTime / video.duration) * 100
+  state.progress = Math.floor(progress)
+  currentTime.value = videoRef.value.currentTime
+}
+
+watch(props, () => {
+  if (videoRef.value === null) return
+
+  if (props.playableVideo === false && state.isPlaying) {
+    videoRef.value.pause()
+    state.isPlaying = false
+  }
+  if (props.playableVideo === true && !state.isPlaying) {
+    videoRef.value.play()
+    state.isPlaying = true
+  }
+})
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .video-player {
   position: relative;
   width: 100%;
   height: 100%;
+  font-size: 20px;
 }
 
 .video-player-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  max-height: 770px;
 }
 
 .video-player-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 20px;
+  height: 50px;
+
+  .video-player-control {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 }
 
-.video-player-control {
-  cursor: pointer;
-}
+.speed {
+  display: flex;
+  align-items: center;
 
-.video-player-progress-bar {
-  width: 60%;
-  height: 5px;
-  background-color: #ccc;
+  span {
+    font-size: 20px;
+  }
+
+  .speedItem {
+    font-size: 20px;
+  }
 }
 
 .video-player-progress {
@@ -127,7 +206,25 @@ const updateProgress = () => {
 }
 
 .video-player-volume-bar {
-  margin-left: 20px;
   position: relative;
+}
+
+.video-player-volume-slider {
+  display: none;
+  position: absolute;
+  padding: 10px 0;
+  top: -136px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #8a7e7e;
+
+  &:hover {
+    display: block;
+  }
+}
+
+.video-player-volume-muted {
+  display: flex;
+  gap: 10px;
 }
 </style>

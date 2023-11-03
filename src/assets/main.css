@@ -39,4 +39,5 @@ a,
 } */
 #app {
   font-weight: normal;
+  @apply bg-gray-100;
 }

@@ -14,6 +14,13 @@ const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
     loop: { active: true },
 });
 
+// 增加视频播放量
+async function addVideoViews() {
+    const [err, data] = await apis.addVideoViews(video.value.uuid)
+    if (err) handleNetworkError(err)
+    if (data?.code != 200) return
+}
+
 onMounted(async () => {
     const id = route.params.id;
     console.log(id)
@@ -25,6 +32,8 @@ onMounted(async () => {
     console.log(video.value)
     
     initVideoPlayer();
+
+    addVideoViews();
 });
 
 const initVideoPlayer = () => {
@@ -57,7 +66,7 @@ const initVideoPlayer = () => {
                 <!-- 视频播放器 -->
                 <div class="relative mt-4 mb-6 bg-white rounded-lg shadow-md">
                     <div class="rounded-t-lg aspect-ratio-16/9">
-                        <plyr-vue @register="registerVideoPlayer" />
+                        <plyr-vue @register="registerVideoPlayer"  />
                         <!-- <plyr-vue @register="registerVideoPlayer" ref="plyr">
                                 <video controls playsinline :poster="video.thumbnail_url">
                                     <source :src="video.url" type="video/mp4" />
@@ -85,7 +94,7 @@ const initVideoPlayer = () => {
                 </div>
 
                 <!-- 评论区 -->
-                <div class="p-4 mt-4 bg-white rounded-lg shadow-md">
+                <div class="p-4 mt-4 mb-4 bg-white rounded-lg shadow-md">
                     <h2 class="mb-4 text-lg font-semibold text-gray-800">用户评论</h2>
                     <!-- Individual Comments -->
                     <div class="space-y-4">

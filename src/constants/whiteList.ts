@@ -4,4 +4,5 @@ export const whiteList = [
   'login',
   'register',
   'category',
+  'video',
 ]
