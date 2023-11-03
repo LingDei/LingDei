@@ -1,23 +1,12 @@
 <template>
-  <div
-    class="video-player"
-    v-if="indexInfo.indexs.includes(index)"
-    v-show="index === indexInfo.index"
-  >
-    <video
-      ref="videoRef"
-      class="video-player-video"
-      @timeupdate="updateProgress"
-      @durationchange="durationchange"
-      @canplay="canplay"
-      autoplay="true"
-      muted="true"
-    >
+  <div class="video-player" v-if="indexInfo.indexs.includes(index)" v-show="index === indexInfo.index">
+    <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress" @durationchange="durationchange"
+      @canplay="canplay" autoplay="true" muted="true">
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
     <div class="progress">
-      <el-progress></el-progress>
+      <el-progress :percentage="state.progress"></el-progress>
     </div>
     <div class="video-player-controls">
       <div @click="togglePlay" class="video-player-control">
@@ -40,12 +29,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item
-                v-for="speed in speeds"
-                :key="speed"
-                class="speedItem"
-                :command="speed"
-              >
+              <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
                 {{ speed }}x
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -53,17 +37,16 @@
         </el-dropdown>
       </div>
       <div>
-        <div class="video-player-volume-bar">
+        <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
           <button class="video-player-control-btn" @click="toggleVolume">Volume</button>
-          <input
-            type="range"
-            v-if="state.isVolumeVisible"
-            v-model="state.volume"
-            min="0"
-            max="1"
-            step="0.1"
-          />
+          <div class="video-player-volume-slider" @mouseenter="showVolumeSlider" :style="{ display: volumeSliderDisplay }">
+            <el-slider v-model="state.volume" vertical height="80px" />
+          </div>
         </div>
+      </div>
+      <div class="video-player-volume-muted">
+        <el-switch v-model="state.muted" @change="toggleMuted" class="" />
+        <div>静音</div>
       </div>
     </div>
   </div>
@@ -71,7 +54,7 @@
 
 <script setup lang="ts">
 import type { Video } from '@/model/video'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
 
 import { formatTime } from '@/utils/format'
@@ -90,14 +73,16 @@ const state = reactive({
   isPlaying: false,
   progress: 0,
   isVolumeVisible: false,
-  volume: 0.5,
-  speed: ''
+  volume: 0,
+  speed: '',
+  muted: true
 })
 
 const videoRef = ref<HTMLVideoElement | null>(null)
-const playerLoading = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
+const volumeSliderDisplay = ref('none')
+const timer = ref()
 
 function durationchange(e: Event) {
   // @ts-ignore todo, video.target的类型暂时未知
@@ -128,6 +113,31 @@ const toggleSpeed = (speed: string) => {
   state.speed = speed + 'x'
 }
 
+function toggleMuted() {
+  if (videoRef.value) {
+    console.log(state.muted, !state.muted);
+
+    state.muted = !state.muted
+    videoRef.value.muted = state.muted
+  }
+}
+
+function showVolumeSlider() {
+  if(timer.value){
+    clearTimeout(timer.value)
+  }
+  volumeSliderDisplay.value = 'block'
+}
+
+function closeVolumeSlider() {
+  if(timer.value){
+    clearTimeout(timer.value)
+  }
+  timer.value = setTimeout(() => {
+    volumeSliderDisplay.value = 'none'
+  }, 500);
+}
+
 const updateProgress = () => {
   if (!videoRef.value) return
   const video = videoRef.value
@@ -135,6 +145,12 @@ const updateProgress = () => {
   state.progress = Math.floor(progress)
   currentTime.value = videoRef.value.currentTime
 }
+
+watch(state, () => {
+  if (videoRef.value) {
+    videoRef.value.volume = state.volume * 0.01
+  }
+})
 </script>
 
 <style lang="less" scoped>
@@ -184,5 +200,24 @@ const updateProgress = () => {
 
 .video-player-volume-bar {
   position: relative;
+}
+
+.video-player-volume-slider {
+  display: none;
+  position: absolute;
+  padding: 10px 0;
+  top: -136px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #8a7e7e;
+
+  &:hover {
+    display: block;
+  }
+}
+
+.video-player-volume-muted {
+  display: flex;
+  gap: 10px;
 }
 </style>
