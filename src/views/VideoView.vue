@@ -66,7 +66,7 @@ const initVideoPlayer = () => {
                 <!-- 视频播放器 -->
                 <div class="relative mt-4 mb-6 bg-white rounded-lg shadow-md">
                     <div class="rounded-t-lg aspect-ratio-16/9">
-                        <plyr-vue @register="registerVideoPlayer" class="max-h-96" />
+                        <plyr-vue @register="registerVideoPlayer"  />
                         <!-- <plyr-vue @register="registerVideoPlayer" ref="plyr">
                                 <video controls playsinline :poster="video.thumbnail_url">
                                     <source :src="video.url" type="video/mp4" />

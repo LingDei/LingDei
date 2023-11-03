@@ -2,12 +2,10 @@
 import type { Video } from '@/model/video';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 
-
 const videos = ref<Video[]>([]);
-            
 
 async function init() {
-    const [err, data] = await apis.getVideoList();
+    const [err, data] = await apis.getMyVideoList();
     if (err) handleNetworkError(err)
     if (data?.code !== 200) return
     videos.value = data.video_list

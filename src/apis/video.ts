@@ -7,6 +7,11 @@ function getVideoList(category_uuid?: string): Promise<[any, VideoListResponse |
   return Get('/video/list', { category_uuid })
 }
 
+// 获取我的视频列表
+function getMyVideoList(): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/my_list')
+}
+
 // 获取视频
 function getVideo(uuid: string): Promise<[any, VideoResponse | undefined]> {
   return Get('/video/get', { uuid })
@@ -49,6 +54,7 @@ function addVideoViews(uuid: string): Promise<[any, OperationResponse | undefine
 
 export const videoApis = {
   getVideoList,
+  getMyVideoList,
   getVideo,
   addVideo,
   updateVideo,
