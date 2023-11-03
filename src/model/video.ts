@@ -19,8 +19,14 @@ interface VideoListResponse {
     video_list: Video[]
 }
 
+interface UploadTokenResponse {
+    code: number
+    upload_token: string
+}
+
 export type {
     Video,
     VideoResponse,
-    VideoListResponse
+    VideoListResponse,
+    UploadTokenResponse
 }

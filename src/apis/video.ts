@@ -1,5 +1,5 @@
 import type { OperationResponse } from '@/model/resp'
-import type { VideoListResponse, VideoResponse } from '@/model/video'
+import type { UploadTokenResponse, VideoListResponse, VideoResponse } from '@/model/video'
 import { Delete, Get, Post } from '@/utils/request/request'
 
 // 获取视频列表
@@ -10,6 +10,11 @@ function getVideoList(category_uuid?: string): Promise<[any, VideoListResponse |
 // 获取视频
 function getVideo(uuid: string): Promise<[any, VideoResponse | undefined]> {
   return Get('/video/get', { uuid })
+}
+
+// 获取视频上传凭证
+function getUploadToken(): Promise<[any, UploadTokenResponse | undefined]> {
+  return Get('/video/upload_token')
 }
 
 // 添加视频
@@ -40,5 +45,6 @@ export const videoApis = {
   getVideo,
   addVideo,
   updateVideo,
-  deleteVideo
+  deleteVideo,
+  getUploadToken,
 }
