@@ -67,7 +67,8 @@ onMounted(async () => {
                 <!-- 视频播放器 -->
                 <div class="relative mt-4 mb-6 bg-white rounded-lg shadow-md">
                     <div class="rounded-t-lg aspect-ratio-16/9">
-                        <VideoPlayer :video="video" :playable-video="true"></VideoPlayer>
+                        <VideoPlayer v-if="Object.keys(video).length > 0" :video="video" :playable-video="true"></VideoPlayer>
+                        <el-empty v-else></el-empty>
                         <!-- <plyr-vue @register="registerVideoPlayer"  /> -->
                     </div>
                 </div>
