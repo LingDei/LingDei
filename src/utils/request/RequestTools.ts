@@ -39,3 +39,13 @@ export const handleNetworkError = (errStatus?: number): void => {
     type: 'error'
   })
 }
+
+export const handleRequestError = (data: any): void => {
+  if (data.code != 200) {
+    message({
+      showClose: true,
+      message: data.msg,
+      type: 'error'
+    })
+  } 
+}
