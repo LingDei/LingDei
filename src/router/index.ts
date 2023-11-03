@@ -53,6 +53,11 @@ const router = createRouter({
           component: () => import('../views/VideoView.vue')
         },
         {
+          path: '/upload',
+          name: 'upload',
+          component: () => import('../views/UploadView.vue')
+        },
+        {
           path: '/user/center',
           name: 'center',
           component: () => import('../views/user/CenterView.vue'),
