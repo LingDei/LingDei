@@ -1,7 +1,7 @@
 <template>
   <div class="video-player">
     <video ref="videoRef" class="video-player-video" @timeupdate="updateProgress" @durationchange="durationchange"
-      @canplay="canplay" autoplay="true" muted="true">
+      @canplay="canplay" :muted="true">
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
@@ -86,7 +86,7 @@ function durationchange(e: Event) {
 }
 
 function canplay() {
-  state.isPlaying = true
+  togglePlay()
 }
 
 const togglePlay = () => {
