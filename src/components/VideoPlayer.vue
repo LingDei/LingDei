@@ -54,10 +54,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="video-player-volume-muted">
-          <el-switch v-model="volumeStore.muted" @change="(v) => toggleMuted(v as boolean)" />
-          <div>静音</div>
-        </div> -->
       </div>
 
     </div>
@@ -100,6 +96,9 @@ function durationchange(e: Event) {
 function canplay() {
   if (props.playableVideo && videoRef.value) {
     togglePlay()
+    ElMessage.info({
+      message: '本站视频开启了静音,如要听视频原声,请你手动取消静音',
+    })
   }
 }
 
@@ -118,13 +117,6 @@ const toggleSpeed = (speed: string) => {
   videoRef.value.playbackRate = +speed
   state.speed = speed + 'x'
 }
-
-// function toggleMuted(v: boolean) {
-//   if (videoRef.value) {
-//     videoRef.value.muted = v
-//     volumeStore.toggleMuted()
-//   }
-// }
 
 function showVolumeSlider() {
   if (timer.value) {
