@@ -20,8 +20,8 @@ function addCollect(video_uuid: string): Promise<[any, OperationResponse | undef
 }
 
 // 删除收藏
-function deleteCollect(uuid: string): Promise<[any, OperationResponse | undefined]> {
-    return Delete("/collect/delete", { uuid });
+function deleteCollect(video_uuid: string): Promise<[any, OperationResponse | undefined]> {
+    return Delete("/collect/delete", { video_uuid });
 }
 
 export const collectApis = {
