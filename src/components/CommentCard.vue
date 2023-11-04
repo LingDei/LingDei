@@ -61,6 +61,10 @@ async function deleteComment(uuid: string) {
         <h2 class="mb-4 text-lg font-semibold text-gray-800">用户评论</h2>
         <!-- Individual Comments -->
         <div class="space-y-4">
+            <div v-if="commentList.length == 0" class="flex items-center justify-center w-full h-20 text-center">
+                <h3 class="text-gray-400 ">暂无评论</h3>
+            </div>
+
             <!-- Comment，要求显示评论用户的头像，昵称，评论内容和评论时间 -->
             <div class="flex space-x-2" v-for="comment in commentList" :key="comment.uuid">
                 <img :src="comment.profile.avatar_url ? comment.profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'"
