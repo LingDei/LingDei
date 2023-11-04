@@ -5,6 +5,8 @@ import { videoApis } from './video'
 import { likeApis } from './like'
 import { collectApis } from './collect'
 import { followApis } from './follow'
+import { commentApis } from './comment'
+import { barrageApis } from './barrage'
 
 export const apis = {
   ...userApis,
@@ -13,5 +15,7 @@ export const apis = {
   ...videoApis,
   ...likeApis,
   ...collectApis,
-  ...followApis
+  ...followApis,
+  ...commentApis,
+  ...barrageApis
 }
