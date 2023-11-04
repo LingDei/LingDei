@@ -46,7 +46,7 @@
       <div class="video-player-controls-right">
         <div>
           <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
-            <div @click="volumeStore.toggleMuted">
+            <div id="volume" class="video-player-volume-muted" @click="volumeStore.toggleMuted">
               <img class="w-7" v-if="!volumeStore.muted" src="@/assets/svgs/volume-icon.svg" alt="volume" />
               <img class="w-7" v-else src="@/assets/svgs/mute-icon.svg" alt="volume" />
             </div>
@@ -187,6 +187,15 @@ watch(props, () => {
     videoRef.value.play()
     state.isPlaying = true
   }
+})
+
+onMounted(() => {
+  // 模拟点击静音按钮
+  setTimeout(() => {
+    if (volumeStore.muted){
+      document.getElementById('volume')?.click()
+    }
+  }, 500);
 })
 </script>
 
