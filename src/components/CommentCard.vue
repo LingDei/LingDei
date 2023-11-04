@@ -3,6 +3,9 @@ import type { Comment } from '@/model/comment';
 import { apis } from '@/apis';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 import { formatTimestamp } from '@/utils/format';
+import { useUserStore } from '@/stores/user';
+
+const userSotre = useUserStore()
 
 const props = defineProps({
     video_uuid: {
@@ -68,9 +71,7 @@ async function deleteComment(uuid: string) {
 
                     <div class="flex space-x-2">
                         <p class="mt-1 text-xs text-gray-400">{{ formatTimestamp(comment.timestamp) }}</p>
-                        <div class="mt-1 text-xs text-gray-400">
-
-
+                        <div class="mt-1 text-xs text-gray-400" v-if="comment.user_uuid == userSotre.profile.id">
                             <el-popconfirm title="确认删除？" confirmButtonText="确认" cancelButtonText="取消"
                                 @confirm="deleteComment(comment.uuid)">
                                 <template #reference>
