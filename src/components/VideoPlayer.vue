@@ -5,8 +5,11 @@
       <source :src="props.video?.url" type="video/mp4" />
     </video>
 
-    <div class="progress">
-      <el-progress :percentage="state.progress" :show-text="false"></el-progress>
+    <div class="progress" @mouseenter="showProgress" @mouseleave="closeProgress">
+      <el-progress :percentage="state.progress" :show-text="false" v-if="showProgressDrag"></el-progress>
+      <el-slider v-model="currentTime" @change="(v) => changeProgress(v as number)" :format-tooltip="formatTooltip"
+        :min="0" :max="duration" @mousedown="isChangeProgress = true" @mouseup="isChangeProgress = false"
+        v-else></el-slider>
     </div>
     <div class="video-player-controls container items-center justify-between mx-auto">
 
@@ -85,6 +88,10 @@ const currentTime = ref(0)
 const duration = ref(0)
 const volumeSliderDisplay = ref('none')
 const timer = ref()
+const showProgressDrag = ref(true)
+const isChangeProgress = ref(false)
+
+// const progress = computed({ get: () => state.progress * duration.value / 100, set: (v) => v })
 
 const volumeStore = useVolumeStore()
 
@@ -96,9 +103,6 @@ function durationchange(e: Event) {
 function canplay() {
   if (props.playableVideo && videoRef.value) {
     togglePlay()
-    ElMessage.info({
-      message: '本站视频开启了静音,如要听视频原声,请你手动取消静音',
-    })
   }
 }
 
@@ -142,11 +146,34 @@ function changeVolume(value: number) {
 }
 
 const updateProgress = () => {
-  if (!videoRef.value) return
+  if (!videoRef.value || isChangeProgress.value) return
   const video = videoRef.value
   const progress = (video.currentTime / video.duration) * 100
   state.progress = progress
   currentTime.value = videoRef.value.currentTime
+}
+
+const changeProgress = (value: number) => {
+  if (!videoRef.value) return
+  value = Math.floor(value)
+  currentTime.value = value
+  videoRef.value.currentTime = value
+  state.progress = value / (duration.value)
+  togglePlay()
+}
+
+function formatTooltip(v: number) {
+  return formatTime(v)
+}
+
+function showProgress() {
+  showProgressDrag.value = false
+}
+
+function closeProgress() {
+  setTimeout(() => {
+    showProgressDrag.value = true
+  }, 1000);
 }
 
 watch(props, () => {
