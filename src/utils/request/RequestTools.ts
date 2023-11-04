@@ -11,8 +11,9 @@ export const handleConfigureAuth = (config: any) => {
 }
 
 export const handleNetworkError = (errStatus?: number): void => {
+  // console.log(errStatus)
   const networkErrMap: any = {
-    '400': '错误的请求', // token 失效
+    '400': '请先登录~', // token 失效
     '401': '未授权，请重新登录',
     '403': '拒绝访问',
     '404': '请求错误，未找到该资源',
@@ -26,9 +27,11 @@ export const handleNetworkError = (errStatus?: number): void => {
     '505': 'http版本不支持该请求'
   }
   if (errStatus) {
+    console.log(errStatus)
+    console.log(networkErrMap[errStatus] ?? `其他连接错误 -- ${errStatus}`)
     message({
       showClose: true,
-      message: networkErrMap[errStatus] ?? `其他连接错误 --${errStatus}` + '11111111111',
+      message: networkErrMap[errStatus] ?? `其他连接错误 -- ${errStatus}`,
       type: 'error'
     })
     return
@@ -41,7 +44,7 @@ export const handleNetworkError = (errStatus?: number): void => {
 }
 
 export const handleRequestError = (data: any): void => {
-  if (data.code != 200) {
+  if (data?.code != 200 && data?.msg) {
     message({
       showClose: true,
       message: data.msg,

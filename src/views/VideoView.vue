@@ -5,7 +5,9 @@ import { apis } from '@/apis'
 import type { Video, VideoStatus } from '@/model/video';
 import { handleNetworkError, handleRequestError } from '@/utils/request/RequestTools';
 import { Icon } from '@iconify/vue';
+import { useUserStore } from '@/stores/user';
 
+const userStore = useUserStore()
 const route = useRoute()
 const video = ref<Video>({} as Video)
 const video_status = ref<VideoStatus>({} as VideoStatus)
@@ -29,6 +31,7 @@ onMounted(async () => {
 
     addVideoViews();
 
+    if (!userStore.isLogin) return
     checkLike();
     checkCollect();
 });
@@ -81,7 +84,6 @@ async function toggleLike() {
 
 // 收藏
 async function toggleCollect() {
-    console.log(video_status.value.be_collected)
     // 检查目前的收藏状态
     if (video_status.value.be_collected) {
         // 取消收藏

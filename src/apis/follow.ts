@@ -20,22 +20,22 @@ function getFollowList(): Promise<[any, FollowListResponse | undefined]> {
 }
 
 // 获取关注状态
-function checkFollow(follow_uuid: string): Promise<[any, OperationResponse | undefined]> {
+function checkFollow(follow_uuid: string): Promise<[any, FollowStatusResponse | undefined]> {
     return Get("/follow/check", { follow_uuid });
 }
 
 // 获取已关注的用户数量
-function getFollowCount(): Promise<[any, OperationResponse | undefined]> {
+function getFollowCount(): Promise<[any, FollowCountResponse | undefined]> {
     return Get("/follow/count");
 }
 
 // 获取自己的粉丝列表
-function getFanList(): Promise<[any, FollowListResponse | undefined]> {
+function getFanList(): Promise<[any, FanListResponse | undefined]> {
     return Get("/fan/list");
 }
 
 // 获取粉丝数量
-function getFanCount(): Promise<[any, OperationResponse | undefined]> {
+function getFanCount(): Promise<[any, FollowCountResponse | undefined]> {
     return Get("/fan/count");
 }
 
