@@ -8,10 +8,6 @@ import { handleNetworkError } from '@/utils/request/RequestTools';
 const route = useRoute()
 const video = ref<Video>({} as Video)
 
-// const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
-//     loop: { active: true },
-// });
-
 // 增加视频播放量
 async function addVideoViews() {
     const [err, data] = await apis.addVideoViews(video.value.uuid)
@@ -29,25 +25,8 @@ onMounted(async () => {
     video.value = data.video
     console.log(video.value)
 
-    // initVideoPlayer();
-
     addVideoViews();
 });
-
-// const initVideoPlayer = () => {
-//     videoPlayerInstance.value.source = {
-//         type: "video",
-//         title: "",
-//         sources: [
-//             {
-//                 src: video.value.url,
-//                 type: "video/mp4",
-//             },
-//         ],
-//         poster: video.value.thumbnail_url,
-//     };
-//     videoPlayerInstance.value.play();
-// };
 
 </script>
 
