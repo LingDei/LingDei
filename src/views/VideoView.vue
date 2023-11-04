@@ -108,6 +108,27 @@ async function toggleCollect() {
     }
 }
 
+// 分享
+function shareVideo() {
+    // 弹出分享框，展示视频链接
+    const url = window.location.href
+    const title = video.value.name
+    const text = video.value.description
+    const shareData = {
+        title: title,
+        text: text,
+        url: url,
+    }
+
+    if (navigator.share) {
+        navigator.share(shareData)
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+    } else {
+        console.log('navigator.share not supported')
+    }
+}
+
 </script>
 
 
@@ -140,8 +161,8 @@ async function toggleCollect() {
                             <Icon :icon="video_status.be_collected ? 'mdi:star' : 'mdi:star-outline'" :color="video_status.be_collected ? '#00aeec' : ''" class="w-6 h-6" />
                             <span class="ml-2">收藏</span>
                         </button>
-                        <button class="flex items-center text-gray-500">
-                            <img src="@/assets/svgs/share-icon.svg" alt="分享" class="w-6 h-6" />
+                        <button class="flex items-center text-gray-500" @click="shareVideo">
+                            <Icon icon="uil:share" class="w-6 h-6" />
                             <span class="ml-2">分享</span>
                         </button>
                     </div>
