@@ -119,12 +119,12 @@ const toggleSpeed = (speed: string) => {
   state.speed = speed + 'x'
 }
 
-function toggleMuted(v: boolean) {
-  if (videoRef.value) {
-    videoRef.value.muted = v
-    volumeStore.toggleMuted()
-  }
-}
+// function toggleMuted(v: boolean) {
+//   if (videoRef.value) {
+//     videoRef.value.muted = v
+//     volumeStore.toggleMuted()
+//   }
+// }
 
 function showVolumeSlider() {
   if (timer.value) {
