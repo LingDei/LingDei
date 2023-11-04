@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import VideoPlayer from '@/components/VideoPlayer.vue'
-// import { usePlyrVue, PlyrVue } from "plyr-vue";
-// import type { PlyrVueOptions, PlyrVueInstance } from "plyr-vue";
 import "plyr-vue/dist/plyr-vue.css";
 import { useRoute } from 'vue-router'
 import { apis } from '@/apis'
@@ -10,10 +8,6 @@ import { handleNetworkError } from '@/utils/request/RequestTools';
 
 const route = useRoute()
 const video = ref<Video>({} as Video)
-
-// const [registerVideoPlayer, videoPlayerInstance] = usePlyrVue({
-//     loop: { active: true },
-// });
 
 // 增加视频播放量
 async function addVideoViews() {
@@ -32,25 +26,8 @@ onMounted(async () => {
     video.value = data.video
     console.log(video.value)
 
-    // initVideoPlayer();
-
     addVideoViews();
 });
-
-// const initVideoPlayer = () => {
-//     videoPlayerInstance.value.source = {
-//         type: "video",
-//         title: "",
-//         sources: [
-//             {
-//                 src: video.value.url,
-//                 type: "video/mp4",
-//             },
-//         ],
-//         poster: video.value.thumbnail_url,
-//     };
-//     videoPlayerInstance.value.play();
-// };
 
 </script>
 
@@ -69,7 +46,6 @@ onMounted(async () => {
                     <div class="rounded-t-lg aspect-ratio-16/9">
                         <VideoPlayer v-if="Object.keys(video).length > 0" :video="video" :playable-video="true"></VideoPlayer>
                         <el-empty v-else></el-empty>
-                        <!-- <plyr-vue @register="registerVideoPlayer"  /> -->
                     </div>
                 </div>
 
