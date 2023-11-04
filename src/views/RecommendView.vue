@@ -14,6 +14,15 @@ onMounted(async () => {
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
+
+  // 键盘上下键事件监听
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp') {
+      up()
+    } else if (e.key === 'ArrowDown') {
+      down()
+    }
+  });
 })
 
 const indexInfo = computed(() => ({
