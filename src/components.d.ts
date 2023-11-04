@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DialogCard: typeof import('./components/DialogCard.vue')['default']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
@@ -15,6 +17,7 @@ declare module 'vue' {
     ElIconArrowDownBold: typeof import('@element-plus/icons-vue')['ArrowDownBold']
     ElIconArrowUpBold: typeof import('@element-plus/icons-vue')['ArrowUpBold']
     ElIconFilm: typeof import('@element-plus/icons-vue')['Film']
+    ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']

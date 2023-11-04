@@ -1,5 +1,6 @@
 import { whiteList } from '@/constants/whiteList';
 import { useUserStore } from '@/stores/user';
+import { useVolumeStore } from '@/stores/volume'
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RecommandLayoutVue from '@/layout/RecommandLayout.vue';
@@ -8,6 +9,7 @@ import RecommendView from '@/views/RecommendView.vue'
 import FollowView from '@/views/FollowView.vue'
 import CategoryView from '@/views/CategoryView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -100,15 +102,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
-
-  // if (to.name === from.name && to.query === from.query) {
-  //   console.log(to, from, next)
-  //   router.push({ name: 'NotFound' })
-
-  // }
-
+  const volumnStore = useVolumeStore()
   const userStore = useUserStore()
+
+  // 检查是否前往视频播放页
+  if (from.name !== undefined && to.name === 'video' && volumnStore.muted) {
+    volumnStore.toggleMuted()
+  }
+  
   if (whiteList.includes(String(to.name))) {
     next();
   } else {
