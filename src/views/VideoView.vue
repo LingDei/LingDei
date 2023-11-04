@@ -167,34 +167,8 @@ function shareVideo() {
                 </div>
 
                 <!-- 评论区 -->
-                <div class="p-4 mt-4 mb-4 bg-white rounded-lg shadow-md">
-                    <h2 class="mb-4 text-lg font-semibold text-gray-800">用户评论</h2>
-                    <!-- Individual Comments -->
-                    <div class="space-y-4">
-                        <!-- Comment 1 -->
-                        <div class="flex space-x-2">
-                            <img src="https://bucket.lingdei.doyi.online/avatars/default.png" alt="User Avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div>
-                                <h3 class="font-semibold text-gray-800">用户名</h3>
-                                <p class="text-gray-600">这是一条用户评论。</p>
-                            </div>
-                        </div>
-                        <!-- Comment 2 -->
-                        <div class="flex space-x-2">
-                            <img src="https://bucket.lingdei.doyi.online/avatars/default.png" alt="User Avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div>
-                                <h3 class="font-semibold text-gray-800">另一个用户</h3>
-                                <p class="text-gray-600">这是另一条用户评论。</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Comment Input -->
-                    <div class="mt-4">
-                        <input type="text" placeholder="添加评论..." class="w-full p-2 border border-gray-300 rounded">
-                    </div>
-                </div>
+                <CommentCard v-if="Object.keys(video).length > 0"
+                 :video_uuid="video.uuid"></CommentCard>
             </div>
         </div>
     </div>

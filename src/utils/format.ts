@@ -17,3 +17,14 @@ export function formatTime(time: number) {
   const s = Math.floor(time % 60)
   return formatTwoPad(h) + ':' + formatTwoPad(m) + ':' + formatTwoPad(s)
 }
+
+// formatTimestamp 用于格式化时间戳
+export function formatTimestamp(timestamp: number) {
+  const date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  return `${year}-${formatTwoPad(month)}-${formatTwoPad(day)} ${formatTwoPad(hour)}:${formatTwoPad(minute)}`
+}
