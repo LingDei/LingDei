@@ -10,7 +10,6 @@ import FollowView from '@/views/FollowView.vue'
 import CategoryView from '@/views/CategoryView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -106,7 +105,7 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
   // 检查是否前往视频播放页
-  if (from.name !== undefined && to.name === 'video' && volumnStore.muted) {
+  if (from.name && to.name === 'video' && volumnStore.muted) {
     volumnStore.toggleMuted()
   }
   
