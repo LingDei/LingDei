@@ -113,10 +113,8 @@ function shareVideo() {
     // 弹出分享框，展示视频链接
     const url = window.location.href
     const title = video.value.name
-    const text = video.value.description
     const shareData = {
         title: title,
-        text: text,
         url: url,
     }
 

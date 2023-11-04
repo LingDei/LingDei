@@ -12,6 +12,11 @@ function getMyVideoList(): Promise<[any, VideoListResponse | undefined]> {
   return Get('/video/my_list')
 }
 
+// 获取我关注的用户的视频
+function getMyFollowVideoList(): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/follow_list')
+}
+
 // 获取视频
 function getVideo(uuid: string): Promise<[any, VideoResponse | undefined]> {
   return Get('/video/get', { uuid })
@@ -60,5 +65,6 @@ export const videoApis = {
   updateVideo,
   deleteVideo,
   getUploadToken,
+  getMyFollowVideoList,
   addVideoViews,
 }
