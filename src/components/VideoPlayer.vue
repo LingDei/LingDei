@@ -6,49 +6,60 @@
     </video>
 
     <div class="progress">
-      <el-progress :percentage="state.progress"></el-progress>
+      <el-progress :percentage="state.progress" :show-text="false"></el-progress>
     </div>
-    <div class="video-player-controls">
-      <div @click="togglePlay" class="video-player-control">
-        <el-icon v-if="state.isPlaying" size="40">
-          <VideoPause />
-        </el-icon>
-        <el-icon v-else size="40">
-          <VideoPlay />
-        </el-icon>
-      </div>
-      <div>
-        {{ formatTime(currentTime) }}
-        /
-        {{ formatTime(duration) }}
-      </div>
-      <div class="speed">
-        <el-dropdown @command="toggleSpeed">
-          <span class="">
-            {{ state.speed || '倍速' }}
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
-                {{ speed }}x
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-      <div>
-        <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
-          <button>Volume</button>
-          <div class="video-player-volume-slider" @mouseenter="showVolumeSlider"
-            :style="{ display: volumeSliderDisplay }">
-            <el-slider v-model="volumeStore.volume" vertical height="80px" @input="(v) => changeVolume(v as number)" />
-          </div>
+    <div class="video-player-controls container items-center justify-between mx-auto">
+
+      <div class="video-player-controls-left">
+        <div @click="togglePlay" class="video-player-control">
+          <el-icon v-if="state.isPlaying" size="40">
+            <VideoPause />
+          </el-icon>
+          <el-icon v-else size="40">
+            <VideoPlay />
+          </el-icon>
+        </div>
+        <div>
+          {{ formatTime(currentTime) }}
+          /
+          {{ formatTime(duration) }}
+        </div>
+        <div class="speed">
+          <el-dropdown @command="toggleSpeed">
+            <span class="">
+              {{ state.speed || '倍速' }}
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="speed in speeds" :key="speed" class="speedItem" :command="speed">
+                  {{ speed }}x
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </div>
-      <div class="video-player-volume-muted">
-        <el-switch v-model="volumeStore.muted" @change="(v) => toggleMuted(v as boolean)" />
-        <div>静音</div>
+
+      <div class="video-player-controls-right">
+        <div>
+          <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
+            <div @click="volumeStore.toggleMuted">
+              <img class="w-7" v-if="!volumeStore.muted" src="@/assets/svgs/volume-icon.svg" alt="volume" />
+              <img class="w-7" v-else src="@/assets/svgs/mute-icon.svg" alt="volume" />
+            </div>
+
+            <div class="video-player-volume-slider" @mouseenter="showVolumeSlider"
+              :style="{ display: volumeSliderDisplay }">
+              <el-slider v-model="volumeStore.volume" vertical height="80px" @input="(v) => changeVolume(v as number)" />
+            </div>
+          </div>
+        </div>
+        <!-- <div class="video-player-volume-muted">
+          <el-switch v-model="volumeStore.muted" @change="(v) => toggleMuted(v as boolean)" />
+          <div>静音</div>
+        </div> -->
       </div>
+
     </div>
   </div>
 </template>
@@ -111,7 +122,7 @@ const toggleSpeed = (speed: string) => {
 function toggleMuted(v: boolean) {
   if (videoRef.value) {
     videoRef.value.muted = v
-    volumeStore.changeMuted(v)
+    volumeStore.toggleMuted()
   }
 }
 
@@ -142,7 +153,7 @@ const updateProgress = () => {
   if (!videoRef.value) return
   const video = videoRef.value
   const progress = (video.currentTime / video.duration) * 100
-  state.progress = Math.floor(progress)
+  state.progress = progress
   currentTime.value = videoRef.value.currentTime
 }
 
@@ -226,5 +237,19 @@ watch(props, () => {
 .video-player-volume-muted {
   display: flex;
   gap: 10px;
+}
+
+.video-player-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @apply ml-2;
+}
+
+.video-player-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @apply mr-5;
 }
 </style>
