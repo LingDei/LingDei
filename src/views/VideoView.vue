@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import VideoPlayer from '@/components/VideoPlayer.vue'
-// import { usePlyrVue, PlyrVue } from "plyr-vue";
-// import type { PlyrVueOptions, PlyrVueInstance } from "plyr-vue";
-import "plyr-vue/dist/plyr-vue.css";
 import { useRoute } from 'vue-router'
 import { apis } from '@/apis'
 import type { Video } from '@/model/video';
@@ -69,7 +66,6 @@ onMounted(async () => {
                     <div class="rounded-t-lg aspect-ratio-16/9">
                         <VideoPlayer v-if="Object.keys(video).length > 0" :video="video" :playable-video="true"></VideoPlayer>
                         <el-empty v-else></el-empty>
-                        <!-- <plyr-vue @register="registerVideoPlayer"  /> -->
                     </div>
                 </div>
 
