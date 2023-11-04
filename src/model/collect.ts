@@ -2,6 +2,7 @@ interface Collect {
     uuid: string
     user_uuid: string
     video_uuid: string
+    video?: Video
 }
 
 interface CollectResponse {
