@@ -167,7 +167,9 @@ function formatTooltip(v: number) {
 }
 
 function showProgress() {
-  showProgressDrag.value = false
+  if(volumeSliderDisplay.value !== 'block'){
+    showProgressDrag.value = false
+  }
 }
 
 function closeProgress() {
