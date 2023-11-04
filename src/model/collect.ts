@@ -1,3 +1,5 @@
+import type { Video } from "./video"
+
 interface Collect {
     uuid: string
     user_uuid: string
