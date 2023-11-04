@@ -3,7 +3,7 @@ import VideoPlayer from '@/components/VideoPlayer.vue'
 import { useRoute } from 'vue-router'
 import { apis } from '@/apis'
 import type { Video } from '@/model/video';
-import { handleNetworkError } from '@/utils/request/RequestTools';
+import { handleNetworkError, handleRequestError } from '@/utils/request/RequestTools';
 
 const route = useRoute()
 const video = ref<Video>({} as Video)
@@ -28,6 +28,30 @@ onMounted(async () => {
     addVideoViews();
 });
 
+// 点赞
+async function addLike() {
+    const [err, data] = await apis.addLike(video.value.uuid)
+    if (err) handleNetworkError(err)
+    if (data?.code != 200) {
+        handleRequestError(data)
+        return
+    }
+
+    console.log(data)
+}
+
+// 收藏
+async function addCollect() {
+    const [err, data] = await apis.addCollect(video.value.uuid)
+    if (err) handleNetworkError(err)
+    if (data?.code != 200) {
+        handleRequestError(data)
+        return
+    }
+
+    console.log(data)
+}
+
 </script>
 
 
@@ -51,11 +75,11 @@ onMounted(async () => {
                 <!-- 操作按钮 -->
                 <div class="p-4 bg-white rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
-                        <button class="flex items-center text-gray-500">
-                            <img src="@/assets/svgs/thumb-icon.svg" alt="点赞" class="w-6 h-6" />
+                        <button class="flex items-center text-gray-500" @click="addLike">
+                            <img src="@/assets/svgs/thumb-icon.svg" alt="点赞" class="w-6 h-6" style="fill: black;" />
                             <span class="ml-2">点赞</span>
                         </button>
-                        <button class="flex items-center text-gray-500">
+                        <button class="flex items-center text-gray-500" @click="addCollect">
                             <img src="@/assets/svgs/star-icon.svg" alt="收藏" class="w-6 h-6" />
                             <span class="ml-2">收藏</span>
                         </button>
@@ -100,3 +124,12 @@ onMounted(async () => {
     </div>
 </template>
 
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+</style>
