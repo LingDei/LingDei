@@ -7,7 +7,7 @@ import LFooter from '@/components/PageFooter.vue';
 <template class="bg-gray-100">
   <LNavBar />
 
-  <div class="mb-10">
+  <div class="mb-10 min-h-screen">
     <RouterView />
   </div>
 

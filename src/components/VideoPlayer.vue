@@ -71,6 +71,7 @@ import { VideoPlay, VideoPause } from '@element-plus/icons-vue'
 import { formatTime } from '@/utils/format'
 import { speeds } from '@/constants/videoPlayer'
 import { useVolumeStore } from '@/stores/volume'
+import { ElMessage as message } from 'element-plus'
 
 const props = defineProps<{
   video: Video,
@@ -188,6 +189,16 @@ watch(props, () => {
   if (props.playableVideo === true && !state.isPlaying) {
     videoRef.value.play()
     state.isPlaying = true
+  }
+})
+
+onMounted(() => {
+  if (volumeStore.muted) {
+    message({
+        showClose: true,
+        message: '当前为静音，请手动打开音量~',
+        type: 'warning'
+      })
   }
 })
 </script>

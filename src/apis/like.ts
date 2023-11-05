@@ -25,8 +25,8 @@ function addLike(video_uuid: string): Promise<[any, OperationResponse | undefine
 }
 
 // 删除点赞
-function deleteLike(uuid: string): Promise<[any, OperationResponse | undefined]> {
-    return Delete("/like/delete", { uuid });
+function deleteLike(video_uuid: string): Promise<[any, OperationResponse | undefined]> {
+    return Delete("/like/delete", { video_uuid });
 }
 
 export const likeApis = {
