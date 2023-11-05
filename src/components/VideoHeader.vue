@@ -87,7 +87,7 @@ async function unfollowPublisher() {
         <!-- 发布者信息 -->
         <div class="flex items-center">
             <!-- 发布者头像 -->
-            <img :src="publisher_profile.avatar_url" alt="发布者头像" class="w-10 h-10 rounded-full" />
+            <img :src="publisher_profile.avatar_url ? userStore.profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'" alt="发布者头像" class="w-10 h-10 rounded-full" />
             <!-- 发布者昵称 -->
             <h2 class="ml-2 text-lg text-gray-800">{{ publisher_profile.nickname }}</h2>
             <!-- 关注按钮 -->
