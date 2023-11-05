@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { apis } from '@/apis'
+import { onMounted } from 'vue';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 import type { Profile } from '@/model/profile';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore()
 
 const profile = ref<Profile>();
 
@@ -17,11 +21,21 @@ const tabs = ref<Tab[]>([
     { title: '个人资料', name: 'profile' },
 ])
 
+async function getFanCount() {
+    const [err, data] = await apis.getFanCount();
+    if (err) handleNetworkError(err)
+    if (data?.code !== 200) return
+    userStore.fan_count = data.count
+    console.log(data)
+}
+
 async function init() {
     const [err, data] = await apis.getProfile();
     if (err) handleNetworkError(err)
     if (data?.code !== 200) return
     profile.value = data.profile
+
+    getFanCount()
 }
 
 onMounted(() => {
@@ -45,7 +59,7 @@ onMounted(() => {
 
                     <!-- 粉丝数 -->
                     <div class="flex items-center ml-auto mr-5">
-                        <p class="mr-2 text-xl font-bold text-white">0</p>
+                        <p class="mr-2 text-xl font-bold text-white">{{ userStore.fan_count }}</p>
                         <p class="text-gray-100">粉丝</p>
                     </div>
                 </div>

@@ -9,12 +9,13 @@ export const useVolumeStore = defineStore(
 
     const changeVolume = (value: number) => {
       volume.value = value
+      muted.value = false
     }
 
-    const changeMuted = (value: boolean) => {
-      muted.value = value
+    const toggleMuted = () => {
+      muted.value = !muted.value
     }
 
-    return { volume, muted, changeMuted, changeVolume }
+    return { volume, muted, toggleMuted, changeVolume }
   },
 )

@@ -12,7 +12,7 @@ export const useUserStore = defineStore('user', () => {
     email: '',
     avatar_url: 'https://bucket.lingdei.doyi.online/avatars/default.png'
   })
-
+  const fan_count = ref(0)
 
   async function setToken(newToken: string) {
     token.value = newToken
@@ -22,6 +22,12 @@ export const useUserStore = defineStore('user', () => {
     if (err) handleNetworkError(err)
     if (!data) return
     profile.value = data.profile
+
+    // 获取粉丝数量
+    const [err2, data2] = await apis.getFanCount()
+    if (err2) handleNetworkError(err2)
+    if (!data2) return
+    fan_count.value = data2.count
   }
 
   const username = computed(() => {
@@ -42,7 +48,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  return { token, isLogin, setToken, username, profile, logout }
+  return { token, isLogin, setToken, username, profile, logout, fan_count }
 },
   {
     persist: true

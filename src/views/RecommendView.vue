@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VideoPlayer from '@/components/VideoPlayer.vue'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, onBeforeUnmount } from 'vue'
 // @ts-ignore TODO: 配置了include还是无法解析
 import { apis } from '@/apis'
 import { handleNetworkError } from '@/utils/request/RequestTools'
@@ -14,6 +14,19 @@ onMounted(async () => {
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
+
+  // 键盘上下键事件监听
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp') {
+      up()
+    } else if (e.key === 'ArrowDown') {
+      down()
+    }
+  });
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', () => { })
 })
 
 const indexInfo = computed(() => ({
