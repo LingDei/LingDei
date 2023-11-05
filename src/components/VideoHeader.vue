@@ -20,6 +20,9 @@ const follow_status = ref(false)
 const publisher_profile = ref<Profile>({} as Profile)
 
 async function checkFollow() {
+    if (!userSotre.isLogin) {
+        return
+    }
     const [err, data] = await apis.checkFollow(props.video.author_uuid)
     if (err) handleNetworkError(err)
     if (data?.code != 200) return

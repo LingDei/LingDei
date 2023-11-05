@@ -46,7 +46,7 @@
       <div class="barrage-input">
         <el-input v-model="barrageContent" class="input"></el-input>
         <button @click="sendBarrage" class="h-8 px-4 ml-1 text-base text-white bg-blue-500 rounded-md">
-          发送弹幕
+          发送
         </button>
       </div>
 
@@ -281,7 +281,7 @@ watch(currentTime, async () => {
 .video-player-video {
   width: 100%;
   height: 100%;
-  max-height: 770px;
+  max-height: 70vh;
 }
 
 .video-player-controls {

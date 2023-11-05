@@ -56,8 +56,13 @@ function down() {
   <main class="main">
     <div class="videoList">
       <div v-for="(video, i) in videoList" :key="video.url">
-        <VideoPlayer :video="video" v-if="indexInfo.indexs.includes(i)" v-show="i === indexInfo.index"
-          :playable-video="i === indexInfo.index"></VideoPlayer>
+        <div v-if="indexInfo.indexs.includes(i)" v-show="i === indexInfo.index">
+          <div class="relative mt-4 mb-3 bg-white rounded-lg rounded-t-lg shadow-md aspect-ratio-16/9">
+            <VideoPlayer :video="video" :playable-video="i === indexInfo.index">
+            </VideoPlayer>
+          </div>
+          <VideoBar :video_uuid="video.uuid"></VideoBar>
+        </div>
       </div>
     </div>
     <div class="switchVideo">

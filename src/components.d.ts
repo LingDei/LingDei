@@ -32,6 +32,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UserAvatar: typeof import('./components/UserAvatar.vue')['default']
+    VideoBar: typeof import('./components/VideoBar.vue')['default']
     VideoCard: typeof import('./components/VideoCard.vue')['default']
     VideoHeader: typeof import('./components/VideoHeader.vue')['default']
     VideoPlayer: typeof import('./components/VideoPlayer.vue')['default']
