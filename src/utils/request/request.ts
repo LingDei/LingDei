@@ -51,6 +51,7 @@ requests.map((request) => {
       return response
     },
     (err) => {
+      console.log(err.response)
       handleNetworkError(err.response.status)
       Promise.reject(err.response)
     }

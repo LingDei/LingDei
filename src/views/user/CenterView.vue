@@ -30,7 +30,7 @@ async function getFanCount() {
 }
 
 async function init() {
-    const [err, data] = await apis.getProfile();
+    const [err, data] = await apis.getMyProfile();
     if (err) handleNetworkError(err)
     if (data?.code !== 200) return
     profile.value = data.profile

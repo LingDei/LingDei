@@ -7,6 +7,11 @@ function getProfile(user_uuid?: string): Promise<[any, ProfileResponse | undefin
     return Auth_Get("/profile/get", { user_uuid });
 }
 
+// 获取用户信息
+function getMyProfile(): Promise<[any, ProfileResponse | undefined]> {
+    return Auth_Get("/profile/my");
+}
+
 // 修改用户信息
 function updateProfile(
     nickname: string,
@@ -28,6 +33,7 @@ function uploadAvatar(file: File): Promise<[any, OperationResponse | undefined]>
 
 
 export const profileApis = {
+    getMyProfile,
     getProfile,
     updateProfile,
     uploadAvatar

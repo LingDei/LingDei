@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
   const fan_count = ref(0)
 
   async function refreshProfile() {
-    const [err, data] = await apis.getProfile()
+    const [err, data] = await apis.getMyProfile()
     if (err) handleNetworkError(err)
     if (!data) return
     profile.value = data.profile
