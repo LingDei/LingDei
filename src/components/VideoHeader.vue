@@ -85,7 +85,7 @@ async function unfollowPublisher() {
         <h1 class="mt-2 mb-2 text-xl font-semibold text-gray-800">{{ video.name }}</h1>
 
         <!-- 发布者信息 -->
-        <div class="flex items-center mt-2">
+        <div class="flex items-center mt-5">
             <!-- 发布者头像 -->
             <img :src="publisher_profile.avatar_url ? publisher_profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'" alt="发布者头像" class="w-10 h-10 rounded-full" />
             <!-- 发布者昵称 -->

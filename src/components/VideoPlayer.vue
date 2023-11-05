@@ -11,7 +11,7 @@
         :min="0" :max="duration" @mousedown="isChangeProgress = true" @mouseup="isChangeProgress = false"
         v-else></el-slider>
     </div>
-    <div class="video-player-controls container items-center justify-between mx-auto">
+    <div class="container items-center justify-between mx-auto video-player-controls">
 
       <div class="video-player-controls-left">
         <div @click="togglePlay" class="video-player-control">
@@ -45,7 +45,9 @@
 
       <div class="barrage-input">
         <el-input v-model="barrageContent" class="input"></el-input>
-        <div @click="sendBarrage">发送</div>
+        <button @click="sendBarrage" class="h-8 px-4 ml-1 text-base text-white bg-blue-500 rounded-md">
+          发送弹幕
+        </button>
       </div>
 
 
