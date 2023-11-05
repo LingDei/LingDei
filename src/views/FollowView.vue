@@ -8,7 +8,7 @@ import { handleNetworkError } from '@/utils/request/RequestTools';
 const videoList = ref<Video[]>([]);
 
 onMounted(async () => {
-  const [err, data] = await apis.getVideoList()
+  const [err, data] = await apis.getMyFollowVideoList()
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list

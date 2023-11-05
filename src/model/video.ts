@@ -25,9 +25,17 @@ interface UploadTokenResponse {
     upload_token: string
 }
 
+interface VideoStatus {
+    likes: number
+    views: number
+    be_liked: boolean
+    be_collected: boolean
+}
+
 export type {
     Video,
     VideoResponse,
     VideoListResponse,
-    UploadTokenResponse
+    UploadTokenResponse,
+    VideoStatus
 }

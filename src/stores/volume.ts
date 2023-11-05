@@ -5,7 +5,7 @@ export const useVolumeStore = defineStore(
   'volume',
   () => {
     const volume = ref(50)
-    const muted = ref(false)
+    const muted = ref(true)
 
     const changeVolume = (value: number) => {
       volume.value = value

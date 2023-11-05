@@ -5,9 +5,9 @@ import LNavBar from '@/components/NavBar.vue'
 
 <template>
   <LNavBar />
-  <RouterView />
+  <div>
+    <RouterView />
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

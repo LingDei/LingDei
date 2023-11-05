@@ -85,7 +85,7 @@ export function newRequestMethod<Type extends HTTPMethod>(
           request
             .post(url, data, { params })
             .then((result) => {
-              resolve([null, result.data])
+              resolve([null, result?.data])
             })
             .catch((err) => {
               resolve([err, undefined])

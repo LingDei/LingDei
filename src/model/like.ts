@@ -4,7 +4,7 @@ interface Like {
     uuid: string
     user_uuid: string
     video_uuid: string
-    video: Video
+    video?: Video
 }
 
 interface LikeResponse {
