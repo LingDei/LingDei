@@ -4,6 +4,7 @@ import { apis } from '@/apis'
 import { onMounted, ref } from "vue"
 import type { Category } from '@/model/category';
 import { handleNetworkError } from '@/utils/request/RequestTools';
+import { ElMessage as message } from 'element-plus'
 import router from '@/router';
 
 interface Tab {
@@ -18,6 +19,18 @@ const tabs = ref<Tab[]>([
     { type: 'default', name: '推荐', path: '/recommend' },
     { type: 'default', name: '关注', path: '/follow' },
 ])
+
+const search_query = ref('')
+
+const search = () => {
+    if (!search_query.value) {
+        message.error('请输入搜索关键字')
+        return
+    }
+
+    // 跳转到搜索页面，强制刷新
+    window.location.href = `/search?keyword=${search_query.value}`
+}
 
 onMounted(async () => {
     const [err, data] = await apis.getCategoryList()
@@ -44,6 +57,13 @@ onMounted(async () => {
             <img src="../assets/logo-white.svg" alt="logo" class="w-24 h-15" />
 
             <div class="flex items-center">
+                <!-- 搜索框 -->
+                <div class="flex items-center mr-10">
+                    <input type="text" v-model="search_query" placeholder="搜索"
+                        class="p-2 text-gray-800 bg-gray-200 rounded-lg" />
+                    <button @click="search" class="p-2 ml-2 text-gray-800 bg-gray-100 rounded-lg w-18">搜索</button>
+                </div>
+
                 <div class="flex items-center">
                     <!-- 用户头像 -->
                     <UserAvatar />
@@ -52,7 +72,7 @@ onMounted(async () => {
                 <!-- 顶部操作icon -->
                 <div>
                     <!-- 投稿按钮 -->
-                    <div class="header-upload-entry" @click="router.push({name:'upload'})">
+                    <div class="header-upload-entry" @click="router.push({ name: 'upload' })">
                         <img src="@/assets/svgs/upload-icon.svg" alt="upload" class="header-upload-entry__icon" />
                         <span class="text-black header-upload-entry__text">投稿</span>
                     </div>
@@ -68,6 +88,7 @@ onMounted(async () => {
                     class="text-gray-300 hover:text-white">{{ tab.name }}</RouterLink>
             </div>
         </div>
+
     </nav>
 </template>
 
