@@ -281,7 +281,7 @@ watch(currentTime, async () => {
 .video-player-video {
   width: 100%;
   height: 100%;
-  max-height: 770px;
+  max-height: 70vh;
 }
 
 .video-player-controls {
