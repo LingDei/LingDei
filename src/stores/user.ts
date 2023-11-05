@@ -14,20 +14,28 @@ export const useUserStore = defineStore('user', () => {
   })
   const fan_count = ref(0)
 
-  async function setToken(newToken: string) {
-    token.value = newToken
-
-    // 获取用户信息
+  async function refreshProfile() {
     const [err, data] = await apis.getProfile()
     if (err) handleNetworkError(err)
     if (!data) return
     profile.value = data.profile
+  }
+
+  async function refreshFanCount() {
+    const [err, data] = await apis.getFanCount()
+    if (err) handleNetworkError(err)
+    if (!data) return
+    fan_count.value = data.count
+  }
+  
+  async function setToken(newToken: string) {
+    token.value = newToken
+
+    // 获取用户信息
+    refreshProfile()
 
     // 获取粉丝数量
-    const [err2, data2] = await apis.getFanCount()
-    if (err2) handleNetworkError(err2)
-    if (!data2) return
-    fan_count.value = data2.count
+    refreshFanCount()
   }
 
   const username = computed(() => {
@@ -48,7 +56,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  return { token, isLogin, setToken, username, profile, logout, fan_count }
+  return { token, isLogin, setToken, username, profile, logout, fan_count, refreshProfile, refreshFanCount }
 },
   {
     persist: true

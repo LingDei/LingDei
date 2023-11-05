@@ -43,6 +43,7 @@ async function uploadAvatar(e: any) {
   if (err) handleNetworkError(err)
   if (data?.code !== 200) return
   ElMessage.success('上传成功')
+  userStore.refreshProfile()
   return data.msg
 }
 

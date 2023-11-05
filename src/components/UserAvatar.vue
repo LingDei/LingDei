@@ -11,7 +11,7 @@ const userStore = useUserStore();
     <!-- 用户头像容器 -->
     <div class="relative inline-block mr-4">
         <!-- 用户头像 -->
-        <img :src="userStore.profile.avatar_url" alt="用户头像" class="w-10 h-10 rounded-full hover-zoom" />
+        <img :src="userStore.profile.avatar_url ? userStore.profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'" alt="用户头像" class="w-10 h-10 rounded-full hover-zoom" />
 
         <!-- 下拉菜单 -->
         <div class="absolute left-0 hidden w-40 p-2 text-black bg-white border rounded-lg shadow-md top-12 hover-menu">

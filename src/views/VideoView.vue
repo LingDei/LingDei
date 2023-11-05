@@ -6,6 +6,7 @@ import type { Video, VideoStatus } from '@/model/video';
 import { handleNetworkError, handleRequestError } from '@/utils/request/RequestTools';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
+import { ElMessage as message } from 'element-plus'
 
 const userStore = useUserStore()
 const route = useRoute()
@@ -79,6 +80,11 @@ async function toggleLike() {
             return
         }
         video_status.value.be_liked = true
+        message({
+            showClose: false,
+            message: '点赞成功',
+            type: 'success'
+        })
     }
 }
 
@@ -94,7 +100,6 @@ async function toggleCollect() {
             return
         }
         video_status.value.be_collected = false
-        console.log(data)
     } else {
         // 收藏
         const [err, data] = await apis.addCollect(video.value.uuid)
@@ -104,7 +109,11 @@ async function toggleCollect() {
             return
         }
         video_status.value.be_collected = true
-        console.log(data)
+        message({
+            showClose: false,
+            message: '收藏成功',
+            type: 'success'
+        })
     }
 }
 
@@ -135,9 +144,7 @@ function shareVideo() {
         <div class="flex justify-center">
             <div class="w-full md:w-3/4 lg:w-2/3">
                 <!-- 视频标题 -->
-                <div class="p-4 mt-4 bg-white rounded-lg shadow-md">
-                    <h1 class="mt-2 mb-2 text-xl font-semibold text-gray-800">{{ video.name }}</h1>
-                </div>
+                <VideoHeader v-if="Object.keys(video).length > 0" :video="video"></VideoHeader>
 
                 <!-- 视频播放器 -->
                 <div class="relative mt-4 mb-3 bg-white rounded-lg shadow-md">
@@ -152,11 +159,13 @@ function shareVideo() {
                 <div class="p-4 bg-white rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <button class="flex items-center text-gray-500" @click="toggleLike">
-                            <Icon :icon="video_status.be_liked ? 'mdi:thumb-up' : 'mdi:thumb-up-outline'" :color="video_status.be_liked ? '#00aeec' : ''" class="w-6 h-6" />
+                            <Icon :icon="video_status.be_liked ? 'mdi:thumb-up' : 'mdi:thumb-up-outline'"
+                                :color="video_status.be_liked ? '#00aeec' : ''" class="w-6 h-6" />
                             <span class="ml-2">点赞</span>
                         </button>
                         <button class="flex items-center text-gray-500" @click="toggleCollect">
-                            <Icon :icon="video_status.be_collected ? 'mdi:star' : 'mdi:star-outline'" :color="video_status.be_collected ? '#00aeec' : ''" class="w-6 h-6" />
+                            <Icon :icon="video_status.be_collected ? 'mdi:star' : 'mdi:star-outline'"
+                                :color="video_status.be_collected ? '#00aeec' : ''" class="w-6 h-6" />
                             <span class="ml-2">收藏</span>
                         </button>
                         <button class="flex items-center text-gray-500" @click="shareVideo">
@@ -167,8 +176,7 @@ function shareVideo() {
                 </div>
 
                 <!-- 评论区 -->
-                <CommentCard v-if="Object.keys(video).length > 0"
-                 :video_uuid="video.uuid"></CommentCard>
+                <CommentCard v-if="Object.keys(video).length > 0" :video_uuid="video.uuid"></CommentCard>
             </div>
         </div>
     </div>
