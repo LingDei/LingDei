@@ -9,10 +9,10 @@ WORKDIR /app
 COPY . .
 
 # 打包
-RUN yarn
+RUN yarn && \
+    yarn build
 # RUN yarn install --production
-# RUN yarn build
 
 # 运行命令
-EXPOSE 5173
-CMD yarn dev --host 0.0.0.0
+EXPOSE 4173
+CMD yarn preview --host 0.0.0.0

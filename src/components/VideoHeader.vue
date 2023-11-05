@@ -57,21 +57,27 @@ async function toggleFollow() {
     } else {
         await followPublisher()
     }
-
-    follow_status.value = !follow_status.value
 }
 
 // 关注发布者
 async function followPublisher() {
     const [err, data] = await apis.followUser(props.video.author_uuid)
     if (err) handleNetworkError(err)
-    if (data?.code != 200) return
+    if (data?.code != 200) {
+        message({
+            showClose: false,
+            message: data?.msg || '关注失败',
+            type: 'error'
+        })
+        return   
+    }
 
     message({
         showClose: false,
         message: '关注成功',
         type: 'success'
     })
+    follow_status.value = !follow_status.value
 }
 
 // 取消关注发布者
@@ -79,6 +85,8 @@ async function unfollowPublisher() {
     const [err, data] = await apis.unfollowUser(props.video.author_uuid)
     if (err) handleNetworkError(err)
     if (data?.code != 200) return
+
+    follow_status.value = !follow_status.value
 }
 </script>
 
