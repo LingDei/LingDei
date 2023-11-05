@@ -52,7 +52,7 @@ onMounted(() => {
                 <!-- 靠左侧1/3位置 -->
                 <div class="flex items-center ml-5">
                     <img class="w-20 h-20 mr-4 rounded-full"
-                        :src="profile?.avatar_url ? profile?.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'"
+                        :src="userStore.profile.avatar_url ? userStore.profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'"
                         alt="头像">
                     <div>
                         <h2 class="mb-2 text-2xl font-bold text-white">{{ profile?.nickname }}</h2>
