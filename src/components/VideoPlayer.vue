@@ -43,6 +43,12 @@
         </div>
       </div>
 
+      <div class="barrage-input">
+        <el-input v-model="barrageContent" class="input"></el-input>
+        <div @click="sendBarrage">发送</div>
+      </div>
+
+
       <div class="video-player-controls-right">
         <div>
           <div class="video-player-volume-bar" @mouseenter="showVolumeSlider" @mouseleave="closeVolumeSlider">
@@ -60,6 +66,12 @@
       </div>
 
     </div>
+
+    <div class="video-player-barrage">
+      <span v-for="item in barrage" :key="item.uuid" style="">
+        {{ item.content }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -72,6 +84,10 @@ import { formatTime } from '@/utils/format'
 import { speeds } from '@/constants/videoPlayer'
 import { useVolumeStore } from '@/stores/volume'
 import { ElMessage as message } from 'element-plus'
+
+import { apis } from '@/apis'
+import { handleNetworkError } from '@/utils/request/RequestTools'
+import type { Barrage } from '@/model/barrage'
 
 const props = defineProps<{
   video: Video,
@@ -91,6 +107,9 @@ const volumeSliderDisplay = ref('none')
 const timer = ref()
 const showProgressDrag = ref(true)
 const isChangeProgress = ref(false)
+const barrage = ref<Barrage[]>([])
+const barrageContent = ref('')
+const barragePosition = ref()
 
 // const progress = computed({ get: () => state.progress * duration.value / 100, set: (v) => v })
 
@@ -168,7 +187,7 @@ function formatTooltip(v: number) {
 }
 
 function showProgress() {
-  if(volumeSliderDisplay.value !== 'block'){
+  if (volumeSliderDisplay.value !== 'block') {
     showProgressDrag.value = false
   }
 }
@@ -178,6 +197,37 @@ function closeProgress() {
     showProgressDrag.value = true
   }, 1000);
 }
+
+async function sendBarrage() {
+  const [err, data] = await apis.addBarrage(props.video.uuid, barrageContent.value, Math.round(currentTime.value))
+  barrageContent.value = ''
+  if (err) handleNetworkError(err)
+  if (data?.code != 200) {
+    ElMessage.error({ message: '发送失败' })
+    return
+  }
+  ElMessage.success({ message: '发送成功' })
+}
+
+const getRandomColor = () => {
+  var color = "#";
+  for (var i = 0; i < 6; i++)
+    color += parseInt(Math.random() * 16 + '').toString(16);
+  return color;
+};
+
+const moveDanmus = () => {
+  for (let i = 0; i < barrage.value.length; i++) {
+    const danmu = barrage.value[i];
+    danmu.right += 2; // Adjust the speed of the danmu here
+    if (danmu.right > window.innerWidth) {
+      danmu.right = -200; // Reset the position if danmu goes beyond the window
+    }
+  }
+};
+
+// Call moveDanmus every 16 milliseconds (adjust the interval for smoother animation if needed)
+setInterval(moveDanmus, 16);
 
 watch(props, () => {
   if (videoRef.value === null) return
@@ -195,10 +245,24 @@ watch(props, () => {
 onMounted(() => {
   if (volumeStore.muted) {
     message({
-        showClose: true,
-        message: '当前为静音，请手动打开音量~',
-        type: 'warning'
-      })
+      showClose: true,
+      message: '当前为静音，请手动打开音量~',
+      type: 'warning'
+    })
+  }
+})
+
+watch(currentTime, async () => {
+  if (Math.floor(currentTime.value) % 10 === 0) {
+    const [err, data] = await apis.getBarrageList(props.video.uuid)
+    if (err) handleNetworkError(err)
+    if (data?.code != 200) return
+    barrage.value = data.barrage_list
+    barrage.value.forEach((item) => {
+      item.top = 0
+      item.right = 0
+      item
+    })
   }
 })
 </script>
@@ -209,6 +273,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   font-size: 20px;
+  color: #606266;
 }
 
 .video-player-video {
@@ -283,5 +348,22 @@ onMounted(() => {
   align-items: center;
   gap: 20px;
   @apply mr-5;
+}
+
+.barrage-input {
+  display: flex;
+  gap: 10px;
+
+  .input {
+    width: 300px;
+  }
+}
+
+.video-player-barrage {
+  position: absolute;
+  top: 0;
+  z-index: 1001;
+  height: 300px;
+  width: 100%;
 }
 </style>
