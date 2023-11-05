@@ -10,7 +10,7 @@ const videoList = ref<Video[]>([])
 const index = ref(0)
 
 onMounted(async () => {
-  const [err, data] = await apis.getVideoList()
+  const [err, data] = await apis.getRecommendVideoList()
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list

@@ -7,6 +7,11 @@ function getVideoList(category_uuid?: string, page: number = 1, page_size: numbe
   return Get('/video/list', { category_uuid, page, page_size })
 }
 
+// 获取推荐的视频
+function getRecommendVideoList(page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/recommend_list', { page, page_size })
+}
+
 // 获取我的视频列表
 function getMyVideoList(page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
   return Get('/video/my_list', { page, page_size })
@@ -65,6 +70,7 @@ function searchVideo(keyword: string, page: number = 1, page_size: number = 9): 
 export const videoApis = {
   getVideoList,
   getMyVideoList,
+  getRecommendVideoList,
   getVideo,
   addVideo,
   updateVideo,
