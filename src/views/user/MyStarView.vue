@@ -1,4 +1,5 @@
-<script setup lang="ts">import { apis } from '@/apis';
+<script setup lang="ts">
+import { apis } from '@/apis';
 import type { Collect } from '@/model/collect';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 
@@ -25,10 +26,12 @@ async function deleteCollect(collect: Collect) {
 </script>
 
 <template>
-    <div class="p-4 bg-white rounded-md shadow-md">
+    <div class="p-4 bg-white rounded-md shadow-md" style="min-height: 60vh;">
         <h2 class="mb-4 text-lg font-bold">我的收藏</h2>
+        <ElEmpty v-if="!collect_list.length" description="暂无收藏"></ElEmpty>
         <div class="grid grid-cols-2 gap-4">
-            <VideoSmallCard v-for="collect in collect_list" :key="collect.uuid" :video="collect.video" :ButtonClick="() => deleteCollect(collect)"></VideoSmallCard>
+            <VideoSmallCard v-for="collect in collect_list" :key="collect.uuid" :video="collect.video"
+                :ButtonClick="() => deleteCollect(collect)"></VideoSmallCard>
         </div>
     </div>
 </template>

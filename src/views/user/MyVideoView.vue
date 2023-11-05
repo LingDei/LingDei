@@ -1,4 +1,5 @@
-<script setup lang="ts">import { apis } from '@/apis';
+<script setup lang="ts">
+import { apis } from '@/apis';
 import type { Video } from '@/model/video';
 import { handleNetworkError } from '@/utils/request/RequestTools';
 
@@ -25,10 +26,12 @@ async function deleteVideo(video: Video) {
 </script>
 
 <template>
-    <div class="p-4 bg-white rounded-md shadow-md">
+    <div class="p-4 bg-white rounded-md shadow-md" style="min-height: 60vh;">
         <h2 class="mb-4 text-lg font-bold">我的视频</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <VideoSmallCard v-for="video in videos" :key="video.uuid" :video="video" :ButtonClick="() => deleteVideo(video)"></VideoSmallCard>
+        <ElEmpty v-if="!videos.length" description="暂无视频"></ElEmpty>
+        <div class="grid grid-cols-2 gap-4 min-h-[50%]">
+            <VideoSmallCard v-for="video in videos" :key="video.uuid" :video="video"
+                :ButtonClick="() => deleteVideo(video)"></VideoSmallCard>
         </div>
     </div>
 </template>
