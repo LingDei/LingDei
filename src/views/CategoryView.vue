@@ -36,7 +36,7 @@ onMounted(async () => {
 })
 
 onUpdated(async () => {
-  if( pre_uuid.value === route.params.id as string) return
+  if (pre_uuid.value === route.params.id as string) return
   pre_uuid.value = route.params.id as string
   await refresh()
 })
@@ -45,9 +45,13 @@ onUpdated(async () => {
 <template>
   <div class="container mx-auto mt-8">
     <h1 class="mb-4 text-3xl font-semibold">{{ category_name }}</h1>
+    <!-- 空列表提醒 -->
+    <div v-if="videoList.length === 0" class="flex items-center justify-center text-gray-400">
+      <el-empty description="该分类下暂无视频" />
+    </div>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-       <!-- 视频卡片 -->
-       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
+      <!-- 视频卡片 -->
+      <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
     </div>
   </div>
 </template>
