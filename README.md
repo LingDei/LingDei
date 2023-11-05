@@ -35,7 +35,7 @@ yarn dev
 
 ## 架构图
 
-![架构图](https://github.com/LingDei/.github/blob/main/profile/platform.png)
+![架构图](https://bucket.lingdei.doyi.online/imgs/platform.png)
 
 ## 仓库
 
