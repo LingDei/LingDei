@@ -85,11 +85,11 @@ async function unfollowPublisher() {
         <h1 class="mt-2 mb-2 text-xl font-semibold text-gray-800">{{ video.name }}</h1>
 
         <!-- 发布者信息 -->
-        <div class="flex items-center">
+        <div class="flex items-center mt-2">
             <!-- 发布者头像 -->
             <img :src="publisher_profile.avatar_url ? publisher_profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'" alt="发布者头像" class="w-10 h-10 rounded-full" />
             <!-- 发布者昵称 -->
-            <h2 class="ml-2 text-lg text-gray-800">{{ publisher_profile.nickname }}</h2>
+            <h2 class="ml-2 text-lg text-gray-800 ">{{ publisher_profile.nickname }}</h2>
             <!-- 关注按钮 -->
             <button @click="toggleFollow" class="h-8 px-4 ml-5 font-light text-white bg-blue-500 rounded-md">
                 {{ follow_status ? '取消关注' : '关注' }}
