@@ -3,8 +3,8 @@ import type { OperationResponse } from "@/model/resp";
 import { Auth_Get, Auth_Post } from "@/utils/request/request";
 
 // 获取用户信息
-function getProfile(): Promise<[any, ProfileResponse | undefined]> {
-    return Auth_Get("/profile/get");
+function getProfile(user_uuid?: string): Promise<[any, ProfileResponse | undefined]> {
+    return Auth_Get("/profile/get", { user_uuid });
 }
 
 // 修改用户信息

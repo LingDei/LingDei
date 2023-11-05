@@ -5,7 +5,7 @@ interface Video {
     url: string
     thumbnail_url: string
     views: number
-    author_id: string
+    author_uuid: string
     publish_date: string
   }
 
