@@ -3,8 +3,8 @@ import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
 
 // 获取评论列表
-function getCommentList(video_uuid: string): Promise<[any, CommentListResponse | undefined]> {
-    return Get("/comment/list", { video_uuid });
+function getCommentList(video_uuid: string, page: number = 1, page_size: number = 9): Promise<[any, CommentListResponse | undefined]> {
+    return Get("/comment/list", { video_uuid, page, page_size });
 }
 
 // 获取单个评论

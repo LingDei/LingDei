@@ -3,8 +3,13 @@ import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
 
 // 获取弹幕列表
-function getBarrageList(video_uuid: string): Promise<[any, BarrageListResponse | undefined]> {
-    return Get("/barrage/list", { video_uuid });
+function getBarrageList(video_uuid: string, page: number = 1, page_size: number = 9): Promise<[any, BarrageListResponse | undefined]> {
+    return Get("/barrage/list", { video_uuid, page, page_size })
+}
+
+// 获取最近的弹幕列表
+function getRecentBarrageList(video_uuid: string, second: number, limit: number = 60): Promise<[any, BarrageListResponse | undefined]> {
+    return Get("/barrage/list", { video_uuid, second, limit })
 }
 
 // 获取单个弹幕
@@ -28,6 +33,7 @@ function deleteBarrage(uuid: string): Promise<[any, OperationResponse | undefine
 
 export const barrageApis = {
     getBarrageList,
+    getRecentBarrageList,
     getBarrage,
     addBarrage,
     deleteBarrage

@@ -3,8 +3,8 @@ import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
 
 // 获取自己的收藏列表
-function getCollectList(): Promise<[any, CollectListResponse | undefined]> {
-    return Get("/collect/list");
+function getCollectList(page: number = 1, page_size: number = 9): Promise<[any, CollectListResponse | undefined]> {
+    return Get("/collect/list", { page, page_size });
 }
 
 // 检查是否收藏

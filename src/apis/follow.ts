@@ -1,6 +1,6 @@
-import type { FollowListResponse } from "@/model/resp/follow";
 import type { OperationResponse } from "@/model/resp";
 import { Delete, Get, Post } from "@/utils/request/request";
+import type { FanListResponse, FollowCountResponse, FollowListResponse, FollowStatusResponse } from "@/model/follow";
 
 // 关注用户
 function followUser(follow_uuid: string): Promise<[any, OperationResponse | undefined]> {
@@ -15,8 +15,8 @@ function unfollowUser(follow_uuid: string): Promise<[any, OperationResponse | un
 }
 
 // 获取自己的关注列表
-function getFollowList(): Promise<[any, FollowListResponse | undefined]> {
-    return Get("/follow/list");
+function getFollowList(page: number = 1, page_size: number = 9): Promise<[any, FollowListResponse | undefined]> {
+    return Get("/follow/list", { page, page_size });
 }
 
 // 获取关注状态
@@ -30,8 +30,8 @@ function getFollowCount(): Promise<[any, FollowCountResponse | undefined]> {
 }
 
 // 获取自己的粉丝列表
-function getFanList(): Promise<[any, FanListResponse | undefined]> {
-    return Get("/fan/list");
+function getFanList(page: number = 1, page_size: number = 9): Promise<[any, FanListResponse | undefined]> {
+    return Get("/fan/list", { page, page_size });
 }
 
 // 获取粉丝数量

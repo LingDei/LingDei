@@ -3,18 +3,18 @@ import type { UploadTokenResponse, VideoListResponse, VideoResponse } from '@/mo
 import { Delete, Get, Post } from '@/utils/request/request'
 
 // 获取视频列表
-function getVideoList(category_uuid?: string): Promise<[any, VideoListResponse | undefined]> {
-  return Get('/video/list', { category_uuid })
+function getVideoList(category_uuid?: string, page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/list', { category_uuid, page, page_size })
 }
 
 // 获取我的视频列表
-function getMyVideoList(): Promise<[any, VideoListResponse | undefined]> {
-  return Get('/video/my_list')
+function getMyVideoList(page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/my_list', { page, page_size })
 }
 
 // 获取我关注的用户的视频
-function getMyFollowVideoList(): Promise<[any, VideoListResponse | undefined]> {
-  return Get('/video/follow_list')
+function getMyFollowVideoList(page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/follow_list', { page, page_size })
 }
 
 // 获取视频
@@ -57,6 +57,11 @@ function addVideoViews(uuid: string): Promise<[any, OperationResponse | undefine
   return Post('/video/views/add', form)
 }
 
+// 搜索视频
+function searchVideo(keyword: string, page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+  return Get('/video/search', { keyword, page, page_size })
+}
+
 export const videoApis = {
   getVideoList,
   getMyVideoList,
@@ -67,4 +72,5 @@ export const videoApis = {
   getUploadToken,
   getMyFollowVideoList,
   addVideoViews,
+  searchVideo
 }
