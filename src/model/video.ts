@@ -6,7 +6,7 @@ interface Video {
     thumbnail_url: string
     views: number
     author_uuid: string
-    publish_date: string
+    timestamp: number
   }
 
 interface VideoResponse {
