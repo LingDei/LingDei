@@ -65,9 +65,9 @@ async function followPublisher() {
     if (data?.code != 200) return
 
     message({
-      showClose: true,
-      message: '关注成功',
-      type: 'success'
+        showClose: false,
+        message: '关注成功',
+        type: 'success'
     })
 }
 
@@ -81,20 +81,19 @@ async function unfollowPublisher() {
 
 <template>
     <div class="p-4 mt-4 bg-white rounded-lg shadow-md">
+        <!-- 视频标题 -->
         <h1 class="mt-2 mb-2 text-xl font-semibold text-gray-800">{{ video.name }}</h1>
 
-        <!-- 发布者信息，各元素间设定间距 -->
+        <!-- 发布者信息 -->
         <div class="flex items-center">
             <!-- 发布者头像 -->
             <img :src="publisher_profile.avatar_url" alt="发布者头像" class="w-10 h-10 rounded-full" />
             <!-- 发布者昵称 -->
             <h2 class="ml-2 text-lg text-gray-800">{{ publisher_profile.nickname }}</h2>
             <!-- 关注按钮 -->
-            <button @click="toggleFollow" class="px-4 py-2 ml-5 text-white bg-blue-500 rounded-md">
+            <button @click="toggleFollow" class="h-8 px-4 ml-5 font-light text-white bg-blue-500 rounded-md">
                 {{ follow_status ? '取消关注' : '关注' }}
             </button>
         </div>
-
-
     </div>
 </template>

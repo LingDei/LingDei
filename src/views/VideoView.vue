@@ -6,6 +6,7 @@ import type { Video, VideoStatus } from '@/model/video';
 import { handleNetworkError, handleRequestError } from '@/utils/request/RequestTools';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
+import { ElMessage as message } from 'element-plus'
 
 const userStore = useUserStore()
 const route = useRoute()
@@ -79,6 +80,11 @@ async function toggleLike() {
             return
         }
         video_status.value.be_liked = true
+        message({
+            showClose: false,
+            message: '点赞成功',
+            type: 'success'
+        })
     }
 }
 
@@ -94,7 +100,6 @@ async function toggleCollect() {
             return
         }
         video_status.value.be_collected = false
-        console.log(data)
     } else {
         // 收藏
         const [err, data] = await apis.addCollect(video.value.uuid)
@@ -104,7 +109,11 @@ async function toggleCollect() {
             return
         }
         video_status.value.be_collected = true
-        console.log(data)
+        message({
+            showClose: false,
+            message: '收藏成功',
+            type: 'success'
+        })
     }
 }
 
