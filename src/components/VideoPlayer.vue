@@ -112,7 +112,11 @@
       <span
         v-for="(item, index) in barrage"
         :key="index"
-        :class="['video-player-barrage-animation', item.class]"
+        :class="[
+          'video-player-barrage-animation',
+          item.class,
+          state.isPlaying ? 'running' : 'pause'
+        ]"
         :style="{ display: item.display, color: item.color, top: item.top }"
       >
         {{ item.content }}
@@ -293,14 +297,15 @@ async function getRecentBarrage() {
     b.top = getRandomTop()
     b.class = getRandomSpeedClass()
   })
-  setTimeout(() => {
-    barrage.value.forEach((item) => {
-      item.display = 'none'
-    })
-  }, 9000)
+  // 优化: 开启后弹幕元素定时消失,减少dom元素节点
+  // setTimeout(() => {
+  //   barrage.value.forEach((item) => {
+  //     item.display = 'none'
+  //   })
+  // }, 9000)
 }
 
-const wrapGetRecentBarrage = _.debounce(getRecentBarrage, 1000)
+const wrapGetRecentBarrage = _.debounce(getRecentBarrage, 1000, { leading: true, trailing: false })
 
 watch(props, () => {
   if (videoRef.value === null) return
@@ -459,6 +464,14 @@ watch(currentTime, async () => {
 
   .fast {
     animation: scrollTO 5s linear;
+  }
+
+  .pause {
+    animation-play-state: paused;
+  }
+
+  .running {
+    animation-play-state: running;
   }
 }
 </style>
