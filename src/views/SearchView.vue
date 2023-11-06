@@ -5,11 +5,13 @@ import type { Video } from '@/model/video';
 import { apis } from '@/apis'
 import { handleNetworkError } from '@/utils/request/RequestTools';
 import { useRoute } from 'vue-router'
+import _ from 'lodash'
 
 const route = useRoute()
 const videoList = ref<Video[]>([]);
 const page = ref(1)
 const total = ref(0)
+const preKeyword = ref('')
 
 async function getData(){
   const keyword = route.query.keyword;
@@ -21,10 +23,17 @@ async function getData(){
   total.value = data.total
 }
 
+const wrapGetData = _.debounce(getData, 1000, {leading: true, trailing:false})
+
 onMounted(async () => {
-  getData()
+  await wrapGetData()
 })
 
+onUpdated(async () => {
+  if(preKeyword.value === route.query.keyword) return
+  preKeyword.value = route.query.keyword as string
+  await wrapGetData()
+})
 </script>
 
 <template>
