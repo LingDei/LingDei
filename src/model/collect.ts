@@ -20,6 +20,7 @@ interface CollectStatusResponse {
 interface CollectListResponse {
     code: number
     collect_list: Collect[]
+    total: number
 }
 
 export type {

@@ -3,7 +3,7 @@ import type { UploadTokenResponse, VideoListResponse, VideoResponse } from '@/mo
 import { Delete, Get, Post } from '@/utils/request/request'
 
 // 获取视频列表
-function getVideoList(category_uuid?: string, page: number = 1, page_size: number = 9): Promise<[any, VideoListResponse | undefined]> {
+function getVideoList(page: number = 1, page_size: number = 9, category_uuid?: string): Promise<[any, VideoListResponse | undefined]> {
   return Get('/video/list', { category_uuid, page, page_size })
 }
 

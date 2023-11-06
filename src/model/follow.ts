@@ -30,6 +30,7 @@ interface FollowCountResponse {
 interface FanListResponse  {
     code: number
     fan_list: Follow[]
+    total: number
 }
 
 export type {

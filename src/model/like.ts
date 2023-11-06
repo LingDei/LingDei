@@ -25,6 +25,7 @@ interface LikeStatusResponse {
 interface LikeListResponse {
     code: number
     like_list: Like[]
+    total: number
 }
 
 export type {

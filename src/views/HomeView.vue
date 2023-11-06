@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import VideoCard from '@/components/VideoCard.vue';
-import { onMounted, ref } from 'vue';
-import type { Video } from '@/model/video';
+import VideoCard from '@/components/VideoCard.vue'
+import { onMounted, ref } from 'vue'
+import type { Video } from '@/model/video'
 import { apis } from '@/apis'
-import { handleNetworkError } from '@/utils/request/RequestTools';
+import { handleNetworkError } from '@/utils/request/RequestTools'
 
-const videoList = ref<Video[]>([]);
+const videoList = ref<Video[]>([])
+const page = ref(1)
+const total = ref(0)
 
-onMounted(async () => {
-  const [err, data] = await apis.getVideoList()
+async function getData(){
+  const [err, data] = await apis.getVideoList(page.value)
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
-})
+  total.value = data.total
+}
 
+onMounted(async () => {
+  getData()
+})
 </script>
 
 <template>
@@ -28,7 +34,23 @@ onMounted(async () => {
       <!-- 视频卡片 -->
       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
     </div>
+    <div class="page">
+      <el-pagination
+        v-model:current-page="page"
+        :page-size="9"
+        background
+        layout="prev, pager, next"
+        @update:current-page="getData"
+        :total="total"
+      />
+    </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.page {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+</style>
