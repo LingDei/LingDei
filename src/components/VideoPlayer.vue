@@ -259,7 +259,7 @@ function showProgress() {
 function closeProgress() {
   setTimeout(() => {
     showProgressDrag.value = true
-  }, 1000)
+  }, 500)
 }
 
 async function sendBarrage() {
