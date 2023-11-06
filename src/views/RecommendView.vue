@@ -8,12 +8,17 @@ import type { Video } from '@/model/video'
 
 const videoList = ref<Video[]>([])
 const index = ref(0)
+const page = ref(1)
 
-onMounted(async () => {
-  const [err, data] = await apis.getRecommendVideoList()
+async function getData() {
+  const [err, data] = await apis.getRecommendVideoList(page.value)
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
+}
+
+onMounted(async () => {
+  getData()
 
   // 键盘上下键事件监听
   window.addEventListener('keydown', (e) => {
@@ -42,10 +47,19 @@ function up() {
   index.value--
 }
 
-function down() {
-  if (index.value === videoList.value.length - 1) {
+async function down() {
+  const len = videoList.value.length - 1
+  if (index.value === len) {
     ElMessage.info('当前视频已经是第一条啦，请往下刷或者刷新')
     return
+  }
+  if (index.value + 5 === len) {
+    page.value += 1
+    const [err, data] = await apis.getRecommendVideoList(page.value)
+    if (err) handleNetworkError(err)
+    if (data?.video_list && data.video_list.length > 0) {
+      videoList.value.push(...data.video_list)
+    }
   }
   index.value++
 }
