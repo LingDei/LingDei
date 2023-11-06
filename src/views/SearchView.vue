@@ -5,19 +5,35 @@ import type { Video } from '@/model/video';
 import { apis } from '@/apis'
 import { handleNetworkError } from '@/utils/request/RequestTools';
 import { useRoute } from 'vue-router'
+import _ from 'lodash'
 
 const route = useRoute()
 const videoList = ref<Video[]>([]);
+const page = ref(1)
+const total = ref(0)
+const preKeyword = ref('')
 
-onMounted(async () => {
+async function getData(){
   const keyword = route.query.keyword;
   console.log(keyword)
   const [err, data] = await apis.searchVideo(keyword as string)
   if (err) handleNetworkError(err)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
+  total.value = data.total
+}
+
+const wrapGetData = _.debounce(getData, 1000, {leading: true, trailing:false})
+
+onMounted(async () => {
+  await wrapGetData()
 })
 
+onUpdated(async () => {
+  if(preKeyword.value === route.query.keyword) return
+  preKeyword.value = route.query.keyword as string
+  await wrapGetData()
+})
 </script>
 
 <template>
@@ -32,7 +48,23 @@ onMounted(async () => {
       <!-- 视频卡片 -->
       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />
     </div>
+    <div class="page">
+      <el-pagination
+        v-model:current-page="page"
+        :page-size="9"
+        background
+        layout="prev, pager, next"
+        @update:current-page="getData"
+        :total="total"
+      />
+    </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.page {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+</style>

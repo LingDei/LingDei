@@ -65,6 +65,15 @@
       </div>
 
       <div class="barrage-input">
+        <div @click="barrageSwitch = !barrageSwitch" class="switch">
+          <img
+            v-if="barrageSwitch"
+            class="w-7"
+            src="@/assets/svgs/barrage-on-icon.svg"
+            alt="弹幕开关"
+          />
+          <img v-else class="w-7" src="@/assets/svgs/barrage-close-icon.svg" alt="弹幕开关" />
+        </div>
         <el-input v-model="barrageContent" class="input"></el-input>
         <button
           @click="sendBarrage"
@@ -117,7 +126,29 @@
           item.class,
           state.isPlaying ? 'running' : 'pause'
         ]"
-        :style="{ display: item.display, color: item.color, top: item.top }"
+        :style="{
+          // display: item.display,
+          color: item.color,
+          top: item.top,
+          opacity: barrageSwitch ? 1 : 0
+        }"
+      >
+        {{ item.content }}
+      </span>
+      <span
+        v-for="(item, index) in extraBarrage"
+        :key="index"
+        :class="[
+          'video-player-barrage-animation',
+          item.class,
+          state.isPlaying ? 'running' : 'pause'
+        ]"
+        :style="{
+          display: item.display,
+          color: item.color,
+          top: item.top,
+          opacity: barrageSwitch ? 1 : 0
+        }"
       >
         {{ item.content }}
       </span>
@@ -160,6 +191,8 @@ const showProgressDrag = ref(true)
 const isChangeProgress = ref(false)
 const barrage = ref<Barrage[]>([])
 const barrageContent = ref('')
+const barrageSwitch = ref(true)
+const extraBarrage = ref<Barrage[]>([])
 
 const volumeStore = useVolumeStore()
 
@@ -244,7 +277,7 @@ function showProgress() {
 function closeProgress() {
   setTimeout(() => {
     showProgressDrag.value = true
-  }, 1000)
+  }, 500)
 }
 
 async function sendBarrage() {
@@ -253,19 +286,28 @@ async function sendBarrage() {
     barrageContent.value,
     Math.round(currentTime.value)
   )
-  barrageContent.value = ''
   if (err) handleNetworkError(err)
   if (data?.code != 200) {
     ElMessage.error({ message: '发送失败' })
     return
   }
   ElMessage.success({ message: '发送成功' })
+  addExtraBarrage()
+  barrageContent.value = ''
+}
+
+function addExtraBarrage(){
   const danmu = {
     content: barrageContent.value,
     color: getRandomColor(),
-    top: getRandomTop()
+    top: getRandomTop(),
+    class: getRandomSpeedClass(),
+    display: 'block'
   }
-  barrage.value.push(danmu as Barrage)
+  extraBarrage.value.push(danmu as Barrage)
+  setTimeout(() => {
+    extraBarrage.value[extraBarrage.value.length - 1].display = 'none'
+  }, 10000);
 }
 
 const getRandomColor = () => {
@@ -422,10 +464,15 @@ watch(currentTime, async () => {
 
 .barrage-input {
   display: flex;
+  align-items: center;
   gap: 10px;
 
   .input {
     width: 300px;
+  }
+
+  .switch {
+    cursor: pointer;
   }
 }
 

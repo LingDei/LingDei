@@ -11,6 +11,7 @@ interface CategoryResponse {
 interface CategoryListResponse {
     code: number
     category_list: Category[]
+    total: number
 }
 
 export type {

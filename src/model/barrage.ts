@@ -20,6 +20,7 @@ interface BarrageResponse {
 interface BarrageListResponse {
   code: number
   barrage_list: Barrage[]
+  total: number
 }
 
 interface BarrageCountResponse {

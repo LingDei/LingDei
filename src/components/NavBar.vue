@@ -28,8 +28,7 @@ const search = () => {
         return
     }
 
-    // 跳转到搜索页面，强制刷新
-    window.location.href = `/search?keyword=${search_query.value}`
+    router.push({name: 'search', query: { keyword: search_query.value }})
 }
 
 onMounted(async () => {
