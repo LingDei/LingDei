@@ -118,23 +118,36 @@ async function toggleCollect() {
     }
 }
 
+const shareData = ref({
+    title: '',
+    url: '',
+})
+
 // 分享
 function shareVideo() {
     // 弹出分享框，展示视频链接
     const url = window.location.href
     const title = video.value.name
-    const shareData = {
-        title: title,
-        url: url,
+    shareData.value = {
+        title,
+        url,
     }
+}
 
-    if (navigator.share) {
-        navigator.share(shareData)
-            .then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing', error));
-    } else {
-        console.log('navigator.share not supported')
-    }
+// 复制链接
+function copyURL() {
+    const input = document.createElement('input')
+    input.value = shareData.value.url
+    document.body.appendChild(input)
+    input.select()
+    document.execCommand('copy')
+    document.body.removeChild(input)
+    message({
+        showClose: false,
+        message: '复制成功',
+        type: 'success'
+    })
+    
 }
 
 </script>
@@ -153,10 +166,24 @@ function shareVideo() {
                     :color="video_status.be_collected ? '#00aeec' : ''" class="w-6 h-6" />
                 <span class="ml-2">收藏</span>
             </button>
-            <button class="flex items-center text-gray-500" @click="shareVideo">
-                <Icon icon="uil:share" class="w-6 h-6" />
-                <span class="ml-2">分享</span>
-            </button>
+
+            <el-popover placement="bottom" :title="video.name" :width="420" trigger="click">
+                <template #reference>
+                    <button class="flex items-center text-gray-500" @click="shareVideo">
+                        <Icon icon="uil:share" class="w-6 h-6" />
+                        <span class="ml-2">分享</span>
+                    </button>
+                </template>
+
+                <div class="flex">
+                    <input class="w-10/12 mt-2 text-gray-500 bg-gray-100 border border-gray-300 rounded-md"
+                        :value="shareData.url" readonly />
+                    <button class="mt-2 ml-2 text-gray-500 border rounded-md" @click="copyURL">
+                        <span class="ml-3 mr-3">复制</span>
+                    </button>
+                </div>
+
+            </el-popover>
         </div>
     </div>
 </template>
