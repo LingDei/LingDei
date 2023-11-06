@@ -6,7 +6,6 @@ import type { Video, VideoStatus } from '@/model/video';
 import { handleNetworkError, handleRequestError } from '@/utils/request/RequestTools';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
-import { ElMessage as message } from 'element-plus'
 import VideoBar from '@/components/VideoBar.vue';
 
 const userStore = useUserStore()
