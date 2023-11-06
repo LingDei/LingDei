@@ -223,6 +223,7 @@ const changeProgress = (value: number) => {
   currentTime.value = value
   videoRef.value.currentTime = value
   state.progress = value / duration.value
+  barrage.value = []
   togglePlay()
 }
 
@@ -296,7 +297,7 @@ async function getRecentBarrage() {
     barrage.value.forEach((item) => {
       item.display = 'none'
     })
-  }, 5000)
+  }, 9000)
 }
 
 const wrapGetRecentBarrage = _.debounce(getRecentBarrage, 1000)
