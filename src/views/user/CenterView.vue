@@ -30,7 +30,7 @@ async function getFanCount() {
 }
 
 async function init() {
-    const [err, data] = await apis.getProfile();
+    const [err, data] = await apis.getMyProfile();
     if (err) handleNetworkError(err)
     if (data?.code !== 200) return
     profile.value = data.profile
@@ -51,7 +51,9 @@ onMounted(() => {
             <div class="px-4 py-8 mb-8 bg-blue-500 rounded-lg shadow-md">
                 <!-- 靠左侧1/3位置 -->
                 <div class="flex items-center ml-5">
-                    <img class="w-20 h-20 mr-4 rounded-full" :src="profile?.avatar_url" alt="头像">
+                    <img class="w-20 h-20 mr-4 rounded-full"
+                        :src="userStore.profile.avatar_url ? userStore.profile.avatar_url : 'https://bucket.lingdei.doyi.online/avatars/default.png'"
+                        alt="头像">
                     <div>
                         <h2 class="mb-2 text-2xl font-bold text-white">{{ profile?.nickname }}</h2>
                         <p class="text-gray-100">{{ profile?.email }}</p>
@@ -67,7 +69,9 @@ onMounted(() => {
 
             <!-- Tab 栏 -->
             <div class="flex items-center mb-8">
-                <RouterLink v-for="(tab, index) in tabs" :key="index" :to="{name: tab.name}" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">{{ tab.title }}</RouterLink>
+                <RouterLink v-for="(tab, index) in tabs" :key="index" :to="{ name: tab.name }"
+                    class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-200">{{ tab.title }}
+                </RouterLink>
             </div>
 
             <!-- Tab 内容 -->

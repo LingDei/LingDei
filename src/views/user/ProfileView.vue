@@ -17,7 +17,7 @@ onMounted(() => {
 })
 
 async function init() {
-  const [err, data] = await apis.getProfile();
+  const [err, data] = await apis.getMyProfile();
   if (err) handleNetworkError(err)
   if (data?.code !== 200) {
     handleRequestError(data)
@@ -43,6 +43,7 @@ async function uploadAvatar(e: any) {
   if (err) handleNetworkError(err)
   if (data?.code !== 200) return
   ElMessage.success('上传成功')
+  userStore.refreshProfile()
   return data.msg
 }
 

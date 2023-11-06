@@ -4,33 +4,46 @@ import { onMounted, ref } from 'vue';
 import type { Video } from '@/model/video';
 import { apis } from '@/apis'
 import { handleNetworkError } from '@/utils/request/RequestTools';
+import { useRoute } from 'vue-router'
+import _ from 'lodash'
 
+const route = useRoute()
 const videoList = ref<Video[]>([]);
 const page = ref(1)
 const total = ref(0)
+const preKeyword = ref('')
 
 async function getData(){
-  const [err, data] = await apis.getMyFollowVideoList(page.value)
+  const keyword = route.query.keyword;
+  console.log(keyword)
+  const [err, data] = await apis.searchVideo(keyword as string)
   if (err) handleNetworkError(err)
-  console.log(data)
   if (!data || data?.video_list.length === 0) return
   videoList.value = data.video_list
   total.value = data.total
 }
 
+const wrapGetData = _.debounce(getData, 1000, {leading: true, trailing:false})
+
 onMounted(async () => {
-  await getData()
+  await wrapGetData()
 })
 
+onUpdated(async () => {
+  if(preKeyword.value === route.query.keyword) return
+  preKeyword.value = route.query.keyword as string
+  await wrapGetData()
+})
 </script>
 
 <template>
   <div class="container mx-auto mt-8">
-    <h1 class="mb-4 text-3xl font-semibold">我的关注</h1>
+    <h1 class="mb-4 text-3xl font-semibold">“{{ route.query.keyword }}” 的搜索结果</h1>
     <!-- 空列表提醒 -->
     <div v-if="videoList.length === 0" class="flex items-center justify-center text-gray-400">
-      <el-empty description="未关注用户或关注的用户未发布视频" />
+      <el-empty description="无搜索结果" />
     </div>
+
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       <!-- 视频卡片 -->
       <VideoCard v-for="video in videoList" :key="video.uuid" :video="video" />

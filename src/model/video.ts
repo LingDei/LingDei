@@ -5,8 +5,8 @@ interface Video {
     url: string
     thumbnail_url: string
     views: number
-    author_id: string
-    publish_date: string
+    author_uuid: string
+    timestamp: number
   }
 
 interface VideoResponse {
@@ -17,6 +17,7 @@ interface VideoResponse {
 interface VideoListResponse {
     code: number
     video_list: Video[]
+    total: number
 }
 
 interface UploadTokenResponse {

@@ -4,7 +4,7 @@ interface Collect {
     uuid: string
     user_uuid: string
     video_uuid: string
-    video?: Video
+    video: Video
 }
 
 interface CollectResponse {
@@ -20,6 +20,7 @@ interface CollectStatusResponse {
 interface CollectListResponse {
     code: number
     collect_list: Collect[]
+    total: number
 }
 
 export type {

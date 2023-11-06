@@ -17,6 +17,7 @@ interface CommentResponse {
 interface CommentListResponse {
     code: number;
     comment_list: Comment[];
+    total: number
 }
 
 interface CommentCountResponse {

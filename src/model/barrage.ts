@@ -5,9 +5,11 @@ interface Barrage {
   content: string
   second: number
   timestamp: number
-  top: number
-  right: number
+  // css property
   color: string
+  display: string
+  top: string
+  class: string
 }
 
 interface BarrageResponse {
@@ -18,6 +20,7 @@ interface BarrageResponse {
 interface BarrageListResponse {
   code: number
   barrage_list: Barrage[]
+  total: number
 }
 
 interface BarrageCountResponse {
