@@ -65,6 +65,15 @@
       </div>
 
       <div class="barrage-input">
+        <div @click="barrageSwitch = !barrageSwitch" class="switch">
+          <img
+            v-if="barrageSwitch"
+            class="w-7"
+            src="@/assets/svgs/barrage-on-icon.svg"
+            alt="弹幕开关"
+          />
+          <img v-else class="w-7" src="@/assets/svgs/barrage-close-icon.svg" alt="弹幕开关" />
+        </div>
         <el-input v-model="barrageContent" class="input"></el-input>
         <button
           @click="sendBarrage"
@@ -117,7 +126,12 @@
           item.class,
           state.isPlaying ? 'running' : 'pause'
         ]"
-        :style="{ display: item.display, color: item.color, top: item.top }"
+        :style="{
+          display: item.display,
+          color: item.color,
+          top: item.top,
+          opacity: barrageSwitch ? 1 : 0
+        }"
       >
         {{ item.content }}
       </span>
@@ -160,6 +174,7 @@ const showProgressDrag = ref(true)
 const isChangeProgress = ref(false)
 const barrage = ref<Barrage[]>([])
 const barrageContent = ref('')
+const barrageSwitch = ref(true)
 
 const volumeStore = useVolumeStore()
 
@@ -422,10 +437,15 @@ watch(currentTime, async () => {
 
 .barrage-input {
   display: flex;
+  align-items: center;
   gap: 10px;
 
   .input {
     width: 300px;
+  }
+
+  .switch {
+    cursor: pointer;
   }
 }
 
