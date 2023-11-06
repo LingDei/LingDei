@@ -53,9 +53,9 @@ yarn dev
 
 [LingDei](https://github.com/LingDei/LingDei): 项目的前端部分，使用 Vue3.js + TypeScript 开发。
 
-[LingDei-Middleware](https://github.com/LingDei/LingDei-Middleware): 项目的中间件部分，使用 Golang + Go Fiber 开发，通过灵嘚的大部分服务接口的实现，同时与七牛云进行对接。
+[LingDei-Middleware](https://github.com/LingDei/LingDei-Middleware): 项目的中间件部分，使用 Golang + Go Fiber 开发，承载灵嘚所有服务接口的实现，同时与七牛云的API进行对接。
 
-[LingDei-AuthServer](https://github.com/LingDei/LingDei-AuthServer): 项目的认证服务部分，使用 Golang + Go Fiber 开发，通过灵嘚的用户认证服务相关接口的实现。
+[LingDei-AuthServer](https://github.com/LingDei/LingDei-AuthServer): 项目的认证服务部分，使用 Golang + Go Fiber 开发，承载灵嘚的用户认证服务相关接口的实现。
 
 ## 团队分工
 
