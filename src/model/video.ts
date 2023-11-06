@@ -17,6 +17,7 @@ interface VideoResponse {
 interface VideoListResponse {
     code: number
     video_list: Video[]
+    total: number
 }
 
 interface UploadTokenResponse {
