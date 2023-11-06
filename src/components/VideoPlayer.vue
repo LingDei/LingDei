@@ -24,7 +24,7 @@
         :min="0"
         :max="duration"
         @mousedown="isChangeProgress = true"
-        @mouseup="isChangeProgress = false"
+        @mouseleave="isChangeProgress = false"
         v-else
       ></el-slider>
     </div>
